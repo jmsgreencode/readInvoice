@@ -1,0 +1,49 @@
+frontend/php.ini
+  5766ebb5f303dce7 14-15
+frontend/src/Service/SessionService.php
+  5766ebb5f303dce7 33,37-38
+frontend/src/Controller/VendorEmailController.php
+  5766ebb5f303dce7 31,34,64-68
+frontend/src/Controller/AuthPageController.php
+  5766ebb5f303dce7 53,67-68,74,78-79,81,84-85,89-90,96-97,101
+frontend/src/Service/BackendApiClient.php
+  5766ebb5f303dce7 129-130,134-137,141
+frontend/config/app.php
+  5766ebb5f303dce7 14,24
+frontend/supervisord.conf
+  5766ebb5f303dce7 1-22
+backend/src/Database/migrations/004_create_users.sql
+  5766ebb5f303dce7 14-15,17
+frontend/src/View/login.php
+  5766ebb5f303dce7 36,38-40,42,44
+docker-compose.yml
+  5766ebb5f303dce7 126
+frontend/Dockerfile
+  5766ebb5f303dce7 32,38,41,46-54
+backend/bin/seed.php
+  5766ebb5f303dce7 1-131
+Makefile
+  5766ebb5f303dce7 1,26-29,72-73,75-81
+docker-compose.override.yml
+  5766ebb5f303dce7 1-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "c3c99500436b95aa3aac54b44abf89b3904761a8",
+  "prompts": {
+    "5766ebb5f303dce7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "91ac8f3d-a101-4ab9-9ab1-00a0f02a8127",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Employee <employee@Employees-Mac-Studio.local>",
+      "messages": [],
+      "total_additions": 269,
+      "total_deletions": 90,
+      "accepted_lines": 269,
+      "overriden_lines": 0
+    }
+  }
+}

@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: readinvoice-sa
-  namespace: readinvoice
+  name: procom-sa
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: rbac
     version: "1.0.0"
 automountServiceAccountToken: false
@@ -12,10 +12,10 @@ automountServiceAccountToken: false
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: readinvoice-role
-  namespace: readinvoice
+  name: procom-role
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: rbac
     version: "1.0.0"
 rules:
@@ -38,17 +38,17 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: readinvoice-rolebinding
-  namespace: readinvoice
+  name: procom-rolebinding
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: rbac
     version: "1.0.0"
 subjects:
   - kind: ServiceAccount
-    name: readinvoice-sa
-    namespace: readinvoice
+    name: procom-sa
+    namespace: procom
 roleRef:
   kind: Role
-  name: readinvoice-role
+  name: procom-role
   apiGroup: rbac.authorization.k8s.io

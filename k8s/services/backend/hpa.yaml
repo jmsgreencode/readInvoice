@@ -2,9 +2,9 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: backend-hpa
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: backend
     version: "1.0.0"
 spec:

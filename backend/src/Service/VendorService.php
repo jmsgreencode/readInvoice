@@ -42,6 +42,24 @@ class VendorService
         return $vendorId;
     }
 
+    public function createManual(string $name, ?string $domain = null, ?string $contactEmail = null): int
+    {
+        // Check if vendor with same name already exists
+        $existing = $this->vendorRepo->findByName($name);
+        if ($existing) {
+            throw new \RuntimeException('A vendor with this name already exists');
+        }
+
+        $vendorId = $this->vendorRepo->create($name, $domain, $contactEmail);
+
+        $this->logger->info('Vendor created manually', [
+            'vendor_id' => $vendorId,
+            'name' => $name,
+        ]);
+
+        return $vendorId;
+    }
+
     public function list(int $page = 1, int $perPage = 25, ?string $search = null): array
     {
         $offset = ($page - 1) * $perPage;

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 BACKEND_URL="${BACKEND_URL:-http://localhost:8080}"
-FRONTEND_URL="${FRONTEND_URL:-http://localhost:8081}"
+FRONTEND_URL="${FRONTEND_URL:-http://localhost}"
 PASS=0
 FAIL=0
 

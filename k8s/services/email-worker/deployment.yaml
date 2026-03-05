@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: email-worker
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: email-worker
     version: "1.0.0"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: readinvoice
+      app: procom
       component: email-worker
   strategy:
     type: RollingUpdate
@@ -21,11 +21,11 @@ spec:
   template:
     metadata:
       labels:
-        app: readinvoice
+        app: procom
         component: email-worker
         version: "1.0.0"
     spec:
-      serviceAccountName: readinvoice-sa
+      serviceAccountName: procom-sa
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
@@ -36,7 +36,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: email-worker
-          image: readinvoice/backend:latest
+          image: procom/backend:latest
           command:
             - php
             - /var/www/html/bin/email-worker.php
@@ -44,7 +44,7 @@ spec:
             - configMapRef:
                 name: backend-config
             - secretRef:
-                name: readinvoice-secrets
+                name: procom-secrets
           resources:
             requests:
               cpu: 100m

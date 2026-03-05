@@ -28,7 +28,7 @@ sanity_check "MySQL reachable" "docker compose exec mysql-primary mysqladmin pin
 
 # Database schema
 sanity_check "Vendors table exists" "docker compose exec backend php -r \"
-    \\\$pdo = new PDO('mysql:host=mysql-router;port=6446;dbname=readinvoice', 'readinvoice', getenv('DB_PASS'));
+    \\\$pdo = new PDO('mysql:host=mysql-router;port=6446;dbname=procom', 'procom', getenv('DB_PASS'));
     \\\$pdo->query('SELECT 1 FROM vendors LIMIT 1');
 \""
 

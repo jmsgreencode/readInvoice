@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: frontend
     version: "1.0.0"
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: readinvoice
+      app: procom
       component: frontend
   strategy:
     type: RollingUpdate
@@ -21,11 +21,11 @@ spec:
   template:
     metadata:
       labels:
-        app: readinvoice
+        app: procom
         component: frontend
         version: "1.0.0"
     spec:
-      serviceAccountName: readinvoice-sa
+      serviceAccountName: procom-sa
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
@@ -40,61 +40,20 @@ spec:
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: frontend
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: frontend
       containers:
-        - name: php-fpm
-          image: readinvoice/frontend:latest
+        - name: frontend
+          image: procom/frontend:latest
           ports:
             - containerPort: 9001
-              protocol: TCP
-              name: php-fpm
-          envFrom:
-            - configMapRef:
-                name: frontend-config
-          resources:
-            requests:
-              cpu: 200m
-              memory: 192Mi
-            limits:
-              cpu: 500m
-              memory: 384Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
-          readinessProbe:
-            tcpSocket:
-              port: 9001
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
-          livenessProbe:
-            tcpSocket:
-              port: 9001
-            initialDelaySeconds: 30
-            periodSeconds: 20
-            timeoutSeconds: 5
-            failureThreshold: 3
-          volumeMounts:
-            - name: shared-files
-              mountPath: /var/www/html
-            - name: php-tmp
-              mountPath: /tmp
-        - name: nginx
-          image: nginx:1.26-alpine
-          ports:
-            - containerPort: 8081
               protocol: TCP
               name: http
           resources:
@@ -112,24 +71,21 @@ spec:
                 - ALL
           readinessProbe:
             httpGet:
-              path: /
-              port: 8081
+              path: /health
+              port: 9001
             initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: /
-              port: 8081
+              path: /health
+              port: 9001
             initialDelaySeconds: 10
             periodSeconds: 20
             timeoutSeconds: 3
             failureThreshold: 3
           volumeMounts:
-            - name: shared-files
-              mountPath: /var/www/html
-              readOnly: true
             - name: nginx-config
               mountPath: /etc/nginx/conf.d
               readOnly: true
@@ -140,8 +96,6 @@ spec:
             - name: nginx-tmp
               mountPath: /tmp
       volumes:
-        - name: shared-files
-          emptyDir: {}
         - name: nginx-config
           configMap:
             name: frontend-config
@@ -153,6 +107,4 @@ spec:
         - name: nginx-run
           emptyDir: {}
         - name: nginx-tmp
-          emptyDir: {}
-        - name: php-tmp
           emptyDir: {}

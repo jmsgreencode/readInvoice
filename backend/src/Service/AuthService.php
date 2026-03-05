@@ -16,6 +16,7 @@ class AuthService
     private StructuredLogger $logger;
     private string $jwtSecret;
     private int $tokenExpiry;
+    private ?RbacService $rbacService = null;
 
     public function __construct(Connection $db, StructuredLogger $logger, string $jwtSecret, int $tokenExpiry = 3600)
     {
@@ -23,6 +24,11 @@ class AuthService
         $this->logger = $logger;
         $this->jwtSecret = $jwtSecret;
         $this->tokenExpiry = $tokenExpiry;
+    }
+
+    public function setRbacService(RbacService $rbacService): void
+    {
+        $this->rbacService = $rbacService;
     }
 
     public function login(string $username, string $password): array
@@ -48,10 +54,18 @@ class AuthService
             [$user['id']]
         );
 
-        $token = $this->generateToken($user);
+        $roles = [];
+        $permissions = [];
+        if ($this->rbacService) {
+            $userRoles = $this->rbacService->getUserRoles((int)$user['id']);
+            $roles = array_column($userRoles, 'name');
+            $permissions = $this->rbacService->getUserPermissions((int)$user['id']);
+        }
+
+        $token = $this->generateToken($user, $roles, $permissions);
         $refreshToken = $this->generateRefreshToken($user);
 
-        $this->logger->info('User logged in', ['user_id' => $user['id'], 'role' => $user['role']]);
+        $this->logger->info('User logged in', ['user_id' => $user['id'], 'roles' => $roles]);
 
         return [
             'token' => $token,
@@ -61,6 +75,8 @@ class AuthService
                 'id' => $user['id'],
                 'username' => $user['username'],
                 'role' => $user['role'],
+                'roles' => $roles,
+                'permissions' => $permissions,
             ],
         ];
     }
@@ -98,19 +114,29 @@ class AuthService
             throw new AppException('User not found', 'UNAUTHORIZED', 401, 'Please log in again.');
         }
 
+        $roles = [];
+        $permissions = [];
+        if ($this->rbacService) {
+            $userRoles = $this->rbacService->getUserRoles((int)$user['id']);
+            $roles = array_column($userRoles, 'name');
+            $permissions = $this->rbacService->getUserPermissions((int)$user['id']);
+        }
+
         return [
-            'token' => $this->generateToken($user),
+            'token' => $this->generateToken($user, $roles, $permissions),
             'refresh_token' => $this->generateRefreshToken($user),
             'expires_in' => $this->tokenExpiry,
         ];
     }
 
-    private function generateToken(array $user): string
+    private function generateToken(array $user, array $roles = [], array $permissions = []): string
     {
         $payload = [
             'id' => $user['id'],
             'username' => $user['username'],
             'role' => $user['role'],
+            'roles' => $roles,
+            'permissions' => $permissions,
             'type' => 'access',
             'iat' => time(),
             'exp' => time() + $this->tokenExpiry,

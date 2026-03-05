@@ -77,11 +77,11 @@ module.exports = (env, argv) => {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Security-Policy":
-          "default-src 'self' https://readinvoice.example.com; " +
+          "default-src 'self' https://procom.example.com; " +
           "script-src 'self' https://appsforoffice.microsoft.com; " +
           "style-src 'self' 'unsafe-inline'; " +
           "img-src 'self' data:; " +
-          "connect-src 'self' https://readinvoice.example.com;",
+          "connect-src 'self' https://procom.example.com;",
       },
     },
     devtool: isProduction ? "source-map" : "eval-source-map",

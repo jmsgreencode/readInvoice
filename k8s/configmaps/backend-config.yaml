@@ -2,18 +2,18 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: backend-config
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: backend
 data:
-  DB_HOST: "mysql-router.readinvoice.svc.cluster.local"
+  DB_HOST: "mysql-router.procom.svc.cluster.local"
   DB_PORT: "6446"
   DB_PORT_RO: "6447"
-  DB_NAME: "readinvoice"
-  DB_USER: "readinvoice"
-  BACKEND_URL: "http://backend.readinvoice.svc.cluster.local:8080"
-  FRONTEND_URL: "http://frontend.readinvoice.svc.cluster.local:8081"
+  DB_NAME: "procom"
+  DB_USER: "procom"
+  BACKEND_URL: "http://backend.procom.svc.cluster.local:8080"
+  FRONTEND_URL: "http://frontend.procom.svc.cluster.local:9001"
   UPLOAD_DIR: "/var/www/uploads"
   TESSERACT_LANG: "eng"
   PHP_FPM_PM: "dynamic"

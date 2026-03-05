@@ -1,6 +1,6 @@
 {
-    "name": "readinvoice/backend",
-    "description": "ReadInvoice Backend API - Invoice OCR processing microservice",
+    "name": "procom/backend",
+    "description": "proCom Backend API - Invoice OCR processing microservice",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -9,12 +9,13 @@
         "slim/psr7": "^1.6",
         "php-di/slim-bridge": "^3.4",
         "monolog/monolog": "^3.5",
-        "thephpleague/fractal": "^0.20",
+
         "thiagoalessio/tesseract_ocr": "^2.13",
         "smalot/pdfparser": "^2.7",
         "guzzlehttp/guzzle": "^7.8",
         "firebase/php-jwt": "^6.10",
         "vlucas/phpdotenv": "^5.6",
+        "phpmailer/phpmailer": "^6.9",
         "respect/validation": "^2.3",
         "ext-pdo": "*",
         "ext-pdo_mysql": "*",
@@ -35,6 +36,12 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "audit": {
+            "abandoned": "report",
+            "block-insecure": false
         }
     },
     "scripts": {

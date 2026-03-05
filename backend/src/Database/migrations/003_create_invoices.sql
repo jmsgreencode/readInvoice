@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS invoices (
     id                      BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    email_id                BIGINT UNSIGNED NOT NULL,
+    email_id                BIGINT UNSIGNED DEFAULT NULL,
     vendor_id               BIGINT UNSIGNED DEFAULT NULL,
     invoice_number          VARCHAR(255) DEFAULT NULL,
     invoice_date            DATE DEFAULT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS invoices (
     extraction_status       ENUM('pending','completed','failed','manual_review') DEFAULT 'pending',
     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (email_id) REFERENCES emails(id) ON DELETE CASCADE,
+    FOREIGN KEY (email_id) REFERENCES emails(id) ON DELETE SET NULL,
     FOREIGN KEY (vendor_id) REFERENCES vendors(id) ON DELETE SET NULL,
     INDEX idx_invoices_vendor (vendor_id),
     INDEX idx_invoices_email (email_id),

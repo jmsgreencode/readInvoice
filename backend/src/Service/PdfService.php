@@ -126,6 +126,11 @@ class PdfService
         ];
     }
 
+    public function getUploadDir(): string
+    {
+        return $this->uploadDir;
+    }
+
     public function getFullPath(string $relativePath): string
     {
         $fullPath = $this->uploadDir . '/' . $relativePath;

@@ -22,9 +22,9 @@ class DatabaseConnectionTest extends TestCase
             'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
             getenv('DB_HOST') ?: 'localhost',
             getenv('DB_PORT') ?: '3306',
-            getenv('DB_NAME') ?: 'readinvoice'
+            getenv('DB_NAME') ?: 'procom'
         );
-        $user = getenv('DB_USER') ?: 'readinvoice';
+        $user = getenv('DB_USER') ?: 'procom';
         $pass = getenv('DB_PASS') ?: '';
 
         $logger = Mockery::mock(StructuredLogger::class)->shouldIgnoreMissing();
@@ -46,9 +46,9 @@ class DatabaseConnectionTest extends TestCase
             'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
             getenv('DB_HOST') ?: 'localhost',
             getenv('DB_PORT') ?: '3306',
-            getenv('DB_NAME') ?: 'readinvoice'
+            getenv('DB_NAME') ?: 'procom'
         );
-        $user = getenv('DB_USER') ?: 'readinvoice';
+        $user = getenv('DB_USER') ?: 'procom';
         $pass = getenv('DB_PASS') ?: '';
 
         $logger = Mockery::mock(StructuredLogger::class)->shouldIgnoreMissing();

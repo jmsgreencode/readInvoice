@@ -1,11 +1,11 @@
 -- Initialize database schema
 -- This runs on first container startup only
 
-CREATE DATABASE IF NOT EXISTS readinvoice
+CREATE DATABASE IF NOT EXISTS procom
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
 
-USE readinvoice;
+USE procom;
 
 -- Migrations table (managed by MigrationRunner)
 CREATE TABLE IF NOT EXISTS migrations (

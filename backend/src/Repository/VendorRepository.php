@@ -51,6 +51,13 @@ class VendorRepository
         return $row ?: null;
     }
 
+    public function findByName(string $name): ?array
+    {
+        $stmt = $this->db->execute('SELECT * FROM vendors WHERE name = ?', [$name]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
+
     public function findByDomain(string $domain): ?array
     {
         $stmt = $this->db->execute('SELECT * FROM vendors WHERE domain = ?', [$domain]);
@@ -80,5 +87,43 @@ class VendorRepository
 
         $stmt = $this->db->execute($sql, $params);
         return (int)$stmt->fetch()['total'];
+    }
+
+    public function updateLifecycle(int $id, array $data): void
+    {
+        $fields = [];
+        $params = [];
+
+        $allowed = ['effective_date', 'expiry_date', 'verification_status', 'verified_by', 'verified_at', 'risk_rating', 'is_blocked', 'blocked_reason', 'notes'];
+        foreach ($allowed as $field) {
+            if (array_key_exists($field, $data)) {
+                $fields[] = "{$field} = ?";
+                $params[] = $data[$field];
+            }
+        }
+
+        if (empty($fields)) return;
+
+        $params[] = $id;
+        $this->db->execute('UPDATE vendors SET ' . implode(', ', $fields) . ' WHERE id = ?', $params);
+    }
+
+    public function findExpiring(int $withinDays): array
+    {
+        $stmt = $this->db->execute(
+            'SELECT * FROM vendors WHERE expiry_date IS NOT NULL AND is_blocked = 0
+             AND expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ? DAY)
+             ORDER BY expiry_date ASC',
+            [$withinDays]
+        );
+        return $stmt->fetchAll();
+    }
+
+    public function findExpired(): array
+    {
+        $stmt = $this->db->execute(
+            'SELECT * FROM vendors WHERE expiry_date IS NOT NULL AND expiry_date < CURDATE() ORDER BY expiry_date ASC'
+        );
+        return $stmt->fetchAll();
     }
 }

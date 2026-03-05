@@ -1,9 +1,9 @@
 /**
  * Taskpane Main Logic
  *
- * Entry point for the ReadInvoice Outlook Add-in taskpane.
+ * Entry point for the proCom Outlook Add-in taskpane.
  * Initializes Office.js, reads the current email, runs invoice detection,
- * displays results, and handles the "Send to ReadInvoice" action.
+ * displays results, and handles the "Send to proCom" action.
  */
 
 import "./taskpane.css";
@@ -53,7 +53,7 @@ function initializeAddin(): void {
     const storedToken = getStoredToken();
     if (storedToken) {
       initApiClient({
-        baseUrl: "https://readinvoice.example.com",
+        baseUrl: "https://procom.example.com",
         jwtToken: storedToken,
       });
     }
@@ -258,7 +258,7 @@ function updateActionButtons(detection: InvoiceDetection): void {
   if (sendButton) {
     sendButton.disabled = !detection.isInvoice;
     sendButton.textContent = detection.isInvoice
-      ? "Send to ReadInvoice"
+      ? "Send to proCom"
       : "No Invoice Detected";
   }
 }
@@ -268,7 +268,7 @@ function updateActionButtons(detection: InvoiceDetection): void {
    ============================================================ */
 
 /**
- * Handles the "Send to ReadInvoice" button click.
+ * Handles the "Send to proCom" button click.
  */
 async function handleSend(): Promise<void> {
   if (state.isProcessing || !state.emailData || !state.detection) {
@@ -328,7 +328,7 @@ async function handleSend(): Promise<void> {
     state.isProcessing = false;
     if (sendButton) {
       sendButton.disabled = false;
-      sendButton.textContent = "Send to ReadInvoice";
+      sendButton.textContent = "Send to proCom";
     }
   }
 }
@@ -428,7 +428,7 @@ function truncate(text: string, maxLength: number): string {
 function getStoredToken(): string | null {
   try {
     const settings = Office.context.roamingSettings;
-    const token = settings.get("readinvoice_jwt") as string | undefined;
+    const token = settings.get("procom_jwt") as string | undefined;
     return token ?? null;
   } catch {
     return null;

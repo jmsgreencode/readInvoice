@@ -8,16 +8,16 @@
 
   <Id>a1b2c3d4-e5f6-7890-abcd-ef1234567890</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>ReadInvoice</ProviderName>
+  <ProviderName>proCom</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="ReadInvoice - Invoice Detector" />
-  <Description DefaultValue="Automatically detects invoices in emails and sends them to ReadInvoice for processing." />
-  <IconUrl DefaultValue="https://readinvoice.example.com/addin/assets/icon-64.png" />
-  <HighResolutionIconUrl DefaultValue="https://readinvoice.example.com/addin/assets/icon-128.png" />
-  <SupportUrl DefaultValue="https://readinvoice.example.com/support" />
+  <DisplayName DefaultValue="proCom - Invoice Detector" />
+  <Description DefaultValue="Automatically detects invoices in emails and sends them to proCom for processing." />
+  <IconUrl DefaultValue="https://procom.example.com/addin/assets/icon-64.png" />
+  <HighResolutionIconUrl DefaultValue="https://procom.example.com/addin/assets/icon-128.png" />
+  <SupportUrl DefaultValue="https://procom.example.com/support" />
 
   <AppDomains>
-    <AppDomain>https://readinvoice.example.com</AppDomain>
+    <AppDomain>https://procom.example.com</AppDomain>
   </AppDomains>
 
   <Hosts>
@@ -33,7 +33,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://readinvoice.example.com/addin/taskpane.html" />
+        <SourceLocation DefaultValue="https://procom.example.com/addin/taskpane.html" />
         <RequestedHeight>450</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -61,7 +61,7 @@
 
           <ExtensionPoint xsi:type="MessageReadCommandSurface">
             <OfficeTab id="TabDefault">
-              <Group id="ReadInvoiceGroup">
+              <Group id="proComGroup">
                 <Label resid="GroupLabel" />
 
                 <Control xsi:type="Button" id="TaskpaneButton">
@@ -104,21 +104,21 @@
 
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://readinvoice.example.com/addin/assets/icon-16.png" />
-        <bt:Image id="Icon.32x32" DefaultValue="https://readinvoice.example.com/addin/assets/icon-32.png" />
-        <bt:Image id="Icon.80x80" DefaultValue="https://readinvoice.example.com/addin/assets/icon-80.png" />
+        <bt:Image id="Icon.16x16" DefaultValue="https://procom.example.com/addin/assets/icon-16.png" />
+        <bt:Image id="Icon.32x32" DefaultValue="https://procom.example.com/addin/assets/icon-32.png" />
+        <bt:Image id="Icon.80x80" DefaultValue="https://procom.example.com/addin/assets/icon-80.png" />
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="Commands.Url" DefaultValue="https://readinvoice.example.com/addin/commands.html" />
-        <bt:Url id="Taskpane.Url" DefaultValue="https://readinvoice.example.com/addin/taskpane.html" />
+        <bt:Url id="Commands.Url" DefaultValue="https://procom.example.com/addin/commands.html" />
+        <bt:Url id="Taskpane.Url" DefaultValue="https://procom.example.com/addin/taskpane.html" />
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="GroupLabel" DefaultValue="ReadInvoice" />
+        <bt:String id="GroupLabel" DefaultValue="proCom" />
         <bt:String id="TaskpaneButtonLabel" DefaultValue="Invoice Detector" />
         <bt:String id="ScanButtonLabel" DefaultValue="Quick Scan" />
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="TaskpaneButtonTooltip" DefaultValue="Open the ReadInvoice panel to detect and process invoices from this email." />
+        <bt:String id="TaskpaneButtonTooltip" DefaultValue="Open the proCom panel to detect and process invoices from this email." />
         <bt:String id="ScanButtonTooltip" DefaultValue="Quickly scan the current email for invoice indicators." />
       </bt:LongStrings>
     </Resources>

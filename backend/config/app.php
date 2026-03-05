@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'app_name' => 'ReadInvoice Backend',
+    'app_name' => 'proCom Backend',
     'debug' => (bool)(getenv('APP_DEBUG') ?: false),
     'jwt_secret' => getenv('JWT_SECRET') ?: 'change-this-in-production',
     'jwt_expiry' => (int)(getenv('JWT_EXPIRY') ?: 3600),
@@ -14,5 +14,6 @@ return [
         '/api/auth/login',
         '/api/auth/refresh',
         '/api/health',
+        '/api/health/ready',
     ],
 ];

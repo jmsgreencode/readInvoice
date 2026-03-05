@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS users (
 -- Default admin user (password: admin123) - CHANGE IN PRODUCTION
 -- Hash generated with password_hash('admin123', PASSWORD_BCRYPT)
 INSERT INTO users (username, password_hash, role) VALUES
-('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+('admin', '$2y$10$PhrL8qE8gch4wW4SvAvDPuwoAwMhKdJ89.B30t.OeaESHFV2ewnSi', 'admin');

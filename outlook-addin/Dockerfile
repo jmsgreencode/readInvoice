@@ -1,5 +1,5 @@
 # ==============================================================
-# ReadInvoice Outlook Add-in
+# proCom Outlook Add-in
 # Multi-stage build: compile with Node, serve with Nginx
 # ==============================================================
 
@@ -31,7 +31,7 @@ RUN rm -f /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Create nginx configuration
-RUN cat > /etc/nginx/conf.d/readinvoice-addin.conf << 'NGINX_CONF'
+RUN cat > /etc/nginx/conf.d/procom-addin.conf << 'NGINX_CONF'
 server {
     listen 80;
     server_name _;
@@ -44,7 +44,7 @@ server {
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    add_header Content-Security-Policy "default-src 'self' https://readinvoice.example.com; script-src 'self' https://appsforoffice.microsoft.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://readinvoice.example.com;" always;
+    add_header Content-Security-Policy "default-src 'self' https://procom.example.com; script-src 'self' https://appsforoffice.microsoft.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://procom.example.com;" always;
     add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
 
     # Remove server version header

@@ -46,6 +46,8 @@ class AuthMiddleware implements MiddlewareInterface
             $request = $request->withAttribute('user', $user);
             $request = $request->withAttribute('user_id', $user['id']);
             $request = $request->withAttribute('user_role', $user['role']);
+            $request = $request->withAttribute('roles', $user['roles'] ?? []);
+            $request = $request->withAttribute('permissions', $user['permissions'] ?? []);
 
             $this->logger->info('Request authenticated', [
                 'user_id' => $user['id'],

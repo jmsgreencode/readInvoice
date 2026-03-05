@@ -1,4 +1,4 @@
-# ReadInvoice
+# proCom
 
 Enterprise invoice processing system that integrates with Microsoft Outlook to automatically detect, extract, and manage invoices from vendor emails.
 
@@ -14,8 +14,8 @@ Enterprise invoice processing system that integrates with Microsoft Outlook to a
                              v
 +------------------+    +----+--------+    +-------------------+
 |   Frontend       |    |  Backend    |    |  Email Worker     |
-|   PHP + Datastar +--->|  PHP/Slim   |<---+  (Graph API Poll) |
-|   Port 8081      |    |  Port 8080  |    +-------------------+
+|   React SPA     +--->|  PHP/Slim   |<---+  (Graph API Poll) |
+|   Port 9001      |    |  Port 8080  |    +-------------------+
 +------------------+    +------+------+
                                |
                         +------+------+
@@ -34,7 +34,7 @@ Enterprise invoice processing system that integrates with Microsoft Outlook to a
 | Component | Description | Technology |
 |-----------|-------------|------------|
 | **Backend** | REST API microservice | PHP 8.2 / Slim 4 / PHP-FPM |
-| **Frontend** | Dashboard with vendor-grouped email/invoice views | PHP 8.2 / Datastar (SSE) |
+| **Frontend** | Dashboard with vendor-grouped email/invoice views | React 18 SPA / nginx |
 | **Email Worker** | Background daemon polling Microsoft Graph API | PHP 8.2 CLI |
 | **Outlook Add-in** | In-Outlook invoice detection and forwarding | TypeScript / Office.js |
 | **MySQL** | Primary data store with InnoDB Cluster | MySQL 8.4 LTS |
@@ -66,7 +66,7 @@ make migrate
 
 ### Access
 
-- **Frontend**: http://localhost:8081
+- **Frontend**: http://localhost
 - **Backend API**: http://localhost:8080
 - **API Health**: http://localhost:8080/api/health
 

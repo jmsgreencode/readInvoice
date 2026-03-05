@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: mysql
     version: "8.4"
 spec:
@@ -13,16 +13,16 @@ spec:
   podManagementPolicy: Parallel
   selector:
     matchLabels:
-      app: readinvoice
+      app: procom
       component: mysql
   template:
     metadata:
       labels:
-        app: readinvoice
+        app: procom
         component: mysql
         version: "8.4"
     spec:
-      serviceAccountName: readinvoice-sa
+      serviceAccountName: procom-sa
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
@@ -37,14 +37,14 @@ spec:
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: mysql
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: mysql
       containers:
         - name: mysql
@@ -63,22 +63,22 @@ spec:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: readinvoice-secrets
+                  name: procom-secrets
                   key: MYSQL_ROOT_PASSWORD
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: readinvoice-secrets
+                  name: procom-secrets
                   key: MYSQL_DATABASE
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: readinvoice-secrets
+                  name: procom-secrets
                   key: MYSQL_USER
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: readinvoice-secrets
+                  name: procom-secrets
                   key: MYSQL_PASSWORD
           resources:
             requests:
@@ -127,7 +127,7 @@ spec:
     - metadata:
         name: mysql-data
         labels:
-          app: readinvoice
+          app: procom
           component: mysql
       spec:
         accessModes:

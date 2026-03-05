@@ -1,10 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: readinvoice-ingress
-  namespace: readinvoice
+  name: procom-ingress
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: ingress
     version: "1.0.0"
   annotations:
@@ -15,7 +15,7 @@ metadata:
 spec:
   ingressClassName: nsx
   rules:
-    - host: readinvoice.example.com
+    - host: procom.example.com
       http:
         paths:
           - path: /api
@@ -38,4 +38,4 @@ spec:
               service:
                 name: frontend
                 port:
-                  number: 8081
+                  number: 9001

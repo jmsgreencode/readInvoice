@@ -8,6 +8,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Repository\InvoiceRepository;
 use App\Service\PdfService;
+use App\Service\VendorService;
+use App\Service\InvoiceExtractionService;
 use App\Security\InputValidator;
 use App\Exception\AppException;
 
@@ -15,11 +17,19 @@ class InvoiceController
 {
     private InvoiceRepository $invoiceRepo;
     private PdfService $pdfService;
+    private VendorService $vendorService;
+    private InvoiceExtractionService $extractionService;
 
-    public function __construct(InvoiceRepository $invoiceRepo, PdfService $pdfService)
-    {
+    public function __construct(
+        InvoiceRepository $invoiceRepo,
+        PdfService $pdfService,
+        VendorService $vendorService,
+        InvoiceExtractionService $extractionService
+    ) {
         $this->invoiceRepo = $invoiceRepo;
         $this->pdfService = $pdfService;
+        $this->vendorService = $vendorService;
+        $this->extractionService = $extractionService;
     }
 
     public function list(Request $request, Response $response): Response
@@ -117,6 +127,126 @@ class InvoiceController
         ]));
 
         return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function upload(Request $request, Response $response): Response
+    {
+        $uploadedFiles = $request->getUploadedFiles();
+        $body = $request->getParsedBody() ?? [];
+
+        if (empty($body['vendor_id'])) {
+            $response->getBody()->write(json_encode([
+                'success' => false,
+                'error' => ['message' => 'Vendor ID is required'],
+            ]));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+        }
+
+        $vendorId = InputValidator::validateId($body['vendor_id'], 'vendor_id');
+
+        // Verify vendor exists
+        $vendor = $this->vendorService->get($vendorId);
+        if (!$vendor) {
+            $response->getBody()->write(json_encode([
+                'success' => false,
+                'error' => ['message' => 'Vendor not found'],
+            ]));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+        }
+
+        if (empty($uploadedFiles['pdf'])) {
+            $response->getBody()->write(json_encode([
+                'success' => false,
+                'error' => ['message' => 'PDF file is required'],
+            ]));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+        }
+
+        $uploadedFile = $uploadedFiles['pdf'];
+        if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
+            $response->getBody()->write(json_encode([
+                'success' => false,
+                'error' => ['message' => 'File upload failed'],
+            ]));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+        }
+
+        // Move to temp location for processing
+        $tmpPath = tempnam(sys_get_temp_dir(), 'invoice_');
+        $uploadedFile->moveTo($tmpPath);
+
+        try {
+            $content = file_get_contents($tmpPath);
+
+            // Validate PDF magic bytes
+            if (strlen($content) < 4 || substr($content, 0, 4) !== '%PDF') {
+                throw new \RuntimeException('File is not a valid PDF');
+            }
+
+            // Store the PDF
+            $sha256 = hash('sha256', $content);
+            $originalName = $uploadedFile->getClientFilename() ?? 'upload.pdf';
+            $safeFilename = InputValidator::sanitizeFilename($originalName);
+            $date = date('Y-m-d');
+            $uploadDir = $this->pdfService->getUploadDir();
+            $directory = "{$uploadDir}/{$vendorId}/{$date}";
+
+            if (!is_dir($directory)) {
+                mkdir($directory, 0755, true);
+            }
+
+            $storedFilename = "{$sha256}.pdf";
+            $fullPath = "{$directory}/{$storedFilename}";
+
+            if (!copy($tmpPath, $fullPath)) {
+                throw new \RuntimeException('Failed to store PDF file');
+            }
+
+            $relativePath = "{$vendorId}/{$date}/{$storedFilename}";
+
+            // Try OCR extraction
+            $extractedData = [];
+            try {
+                $extractedData = $this->extractionService->extract($fullPath);
+            } catch (\Throwable $e) {
+                // OCR failure is non-fatal
+            }
+
+            // Create invoice record (no email_id since this is a manual upload)
+            $fields = $extractedData['data'] ?? [];
+            $invoiceData = [
+                'email_id' => null,
+                'vendor_id' => $vendorId,
+                'invoice_number' => $fields['invoice_number'] ?? null,
+                'invoice_date' => $fields['invoice_date'] ?? null,
+                'due_date' => $fields['due_date'] ?? null,
+                'total_amount' => $fields['total_amount'] ?? null,
+                'currency' => $fields['currency'] ?? 'USD',
+                'pdf_path' => $relativePath,
+                'pdf_sha256' => $sha256,
+                'pdf_original_name' => $safeFilename,
+                'ocr_raw_text' => $extractedData['raw_text'] ?? null,
+                'extraction_confidence' => $extractedData['confidence'] ?? null,
+                'extraction_status' => !empty($extractedData) ? 'completed' : 'pending',
+            ];
+
+            $invoiceId = $this->invoiceRepo->create($invoiceData);
+
+            $response->getBody()->write(json_encode([
+                'success' => true,
+                'data' => [
+                    'invoice_id' => $invoiceId,
+                    'message' => 'Invoice uploaded successfully',
+                    'extraction' => $extractedData,
+                ],
+            ]));
+
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
+        } finally {
+            if (file_exists($tmpPath)) {
+                unlink($tmpPath);
+            }
+        }
     }
 
     public function downloadPdf(Request $request, Response $response, array $args): Response

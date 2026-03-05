@@ -1,16 +1,16 @@
-# ReadInvoice - Project Manifest
+# proCom - Project Manifest
 
 ## Project Information
 
 | Field | Value |
 |-------|-------|
-| Project Name | ReadInvoice |
+| Project Name | proCom |
 | Version | 1.0.0 |
 | Generated | 2026-03-05 |
 | PHP Version | 8.2-fpm-alpine |
 | MySQL Version | 8.4 LTS |
 | Architecture | Microservices (PHP/Slim) |
-| Frontend | PHP + Datastar (SSE) |
+| Frontend | React 18 SPA (nginx) |
 | Container Runtime | Docker / Kubernetes (TKGS) |
 
 ## Service Inventory
@@ -18,7 +18,7 @@
 | Service | Type | Port | Image Base |
 |---------|------|------|------------|
 | backend | REST API | 8080 | php:8.2-fpm-alpine |
-| frontend | Web UI | 8081 | php:8.2-fpm-alpine |
+| frontend | Web UI | 9001 | node:20-alpine (build) / nginx:alpine |
 | email-worker | Background Daemon | N/A | php:8.2-fpm-alpine |
 | mysql-primary | Database | 3306 | mysql:8.4 |
 | mysql-router | Connection Router | 6446/6447 | mysql/mysql-router:8.4 |

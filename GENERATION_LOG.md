@@ -6,7 +6,7 @@
 - **Git Branch**: main
 - **Components Generated**:
   - Backend PHP microservice (Slim 4 + PHP-FPM 8.2)
-  - Frontend PHP application (Datastar SSE)
+  - Frontend React SPA (replaced original Datastar SSE)
   - Outlook Add-in (TypeScript + Office.js)
   - MySQL 8.4 LTS database schema (7 migrations)
   - MySQL Router configuration
@@ -17,7 +17,7 @@
   - CI/CD scripts
 - **Architecture Decisions**:
   - Slim Framework chosen for lightweight PSR-15 middleware stack
-  - Datastar for frontend reactivity via SSE (no SPA framework overhead)
+  - React 18 SPA with react-router-dom v6 (replaced Datastar SSE)
   - MySQL Router for transparent connection failover
   - Token bucket rate limiting backed by MySQL (cluster-safe)
   - Circuit breaker state persisted to MySQL (survives PHP-FPM restarts)

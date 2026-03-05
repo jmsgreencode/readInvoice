@@ -2,9 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: default-deny-all
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: network-policy
 spec:
   podSelector: {}
@@ -16,9 +16,9 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-dns
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: network-policy
 spec:
   podSelector: {}
@@ -36,14 +36,14 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: frontend-policy
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: network-policy
 spec:
   podSelector:
     matchLabels:
-      app: readinvoice
+      app: procom
       component: frontend
   policyTypes:
     - Ingress
@@ -54,12 +54,12 @@ spec:
           podSelector: {}
       ports:
         - protocol: TCP
-          port: 8081
+          port: 9001
   egress:
     - to:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: backend
       ports:
         - protocol: TCP
@@ -69,14 +69,14 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: backend-policy
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: network-policy
 spec:
   podSelector:
     matchLabels:
-      app: readinvoice
+      app: procom
       component: backend
   policyTypes:
     - Ingress
@@ -85,7 +85,7 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: frontend
       ports:
         - protocol: TCP
@@ -102,7 +102,7 @@ spec:
     - to:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: mysql-router
       ports:
         - protocol: TCP
@@ -114,14 +114,14 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: email-worker-policy
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: network-policy
 spec:
   podSelector:
     matchLabels:
-      app: readinvoice
+      app: procom
       component: email-worker
   policyTypes:
     - Ingress
@@ -131,7 +131,7 @@ spec:
     - to:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: backend
       ports:
         - protocol: TCP
@@ -139,7 +139,7 @@ spec:
     - to:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: mysql-router
       ports:
         - protocol: TCP
@@ -151,14 +151,14 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: mysql-router-policy
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: network-policy
 spec:
   podSelector:
     matchLabels:
-      app: readinvoice
+      app: procom
       component: mysql-router
   policyTypes:
     - Ingress
@@ -167,7 +167,7 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: backend
       ports:
         - protocol: TCP
@@ -177,7 +177,7 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: email-worker
       ports:
         - protocol: TCP
@@ -188,7 +188,7 @@ spec:
     - to:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: mysql
       ports:
         - protocol: TCP
@@ -202,14 +202,14 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: mysql-policy
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: network-policy
 spec:
   podSelector:
     matchLabels:
-      app: readinvoice
+      app: procom
       component: mysql
   policyTypes:
     - Ingress
@@ -218,7 +218,7 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: mysql-router
       ports:
         - protocol: TCP
@@ -230,7 +230,7 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: mysql
       ports:
         - protocol: TCP
@@ -243,7 +243,7 @@ spec:
     - to:
         - podSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: mysql
       ports:
         - protocol: TCP

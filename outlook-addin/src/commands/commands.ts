@@ -1,7 +1,7 @@
 /**
  * Commands Module
  *
- * Handles ribbon button actions for the ReadInvoice Outlook Add-in.
+ * Handles ribbon button actions for the proCom Outlook Add-in.
  * Registered as function commands in the manifest.
  */
 

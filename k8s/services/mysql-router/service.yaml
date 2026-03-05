@@ -2,15 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-router
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: mysql-router
     version: "8.4"
 spec:
   type: ClusterIP
   selector:
-    app: readinvoice
+    app: procom
     component: mysql-router
   ports:
     - name: mysql-rw

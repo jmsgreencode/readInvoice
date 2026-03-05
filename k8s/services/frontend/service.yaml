@@ -2,22 +2,18 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: frontend
     version: "1.0.0"
 spec:
   type: ClusterIP
   selector:
-    app: readinvoice
+    app: procom
     component: frontend
   ports:
     - name: http
-      port: 8081
-      targetPort: 8081
-      protocol: TCP
-    - name: php-fpm
       port: 9001
       targetPort: 9001
       protocol: TCP

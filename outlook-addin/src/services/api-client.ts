@@ -1,7 +1,7 @@
 /**
  * API Client Service
  *
- * Sends invoice data to the ReadInvoice backend API.
+ * Sends invoice data to the proCom backend API.
  * Implements JWT authentication, retry logic with exponential backoff,
  * timeout handling, and OWASP-compliant error handling.
  */
@@ -14,7 +14,7 @@ import {
 
 /** Default API client configuration. */
 const DEFAULT_CONFIG: ApiClientConfig = {
-  baseUrl: "https://readinvoice.example.com",
+  baseUrl: "https://procom.example.com",
   jwtToken: "",
   timeoutMs: 30000,
   maxRetries: 3,

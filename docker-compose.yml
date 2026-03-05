@@ -4,15 +4,15 @@ services:
   # MySQL Primary Node
   mysql-primary:
     image: mysql:8.4
-    container_name: readinvoice-mysql-primary
+    container_name: procom-mysql-primary
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
+    # ports only exposed internally via Docker network
+    # - "3306:3306"
     volumes:
       - mysql_primary_data:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
@@ -30,16 +30,16 @@ services:
     build:
       context: ./mysql/router
       dockerfile: Dockerfile
-    container_name: readinvoice-mysql-router
+    container_name: procom-mysql-router
     restart: unless-stopped
     environment:
       MYSQL_HOST: mysql-primary
       MYSQL_PORT: "3306"
       MYSQL_USER: root
       MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      - "6446:6446"
-      - "6447:6447"
+    # ports:
+    #   - "6446:6446"
+    #   - "6447:6447"
     depends_on:
       mysql-primary:
         condition: service_healthy
@@ -51,7 +51,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: readinvoice-backend
+    container_name: procom-backend
     restart: unless-stopped
     environment:
       DB_HOST: ${DB_HOST}
@@ -72,13 +72,14 @@ services:
       VSPHERE_SSL_VERIFY: ${VSPHERE_SSL_VERIFY}
       RATE_LIMIT_DEFAULT: ${RATE_LIMIT_DEFAULT}
       LOG_LEVEL: ${LOG_LEVEL}
-    ports:
-      - "8080:8080"
+    # backend only accessed internally by frontend
+    # ports:
+    #   - "8080:8080"
     volumes:
       - uploads:/var/www/uploads
     depends_on:
-      mysql-router:
-        condition: service_started
+      mysql-primary:
+        condition: service_healthy
     networks:
       - backend-net
       - frontend-net
@@ -88,7 +89,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: readinvoice-email-worker
+    container_name: procom-email-worker
     restart: unless-stopped
     command: php /var/www/html/bin/email-worker.php
     environment:
@@ -108,30 +109,113 @@ services:
       - uploads:/var/www/uploads
     depends_on:
       - backend
-      - mysql-router
+      - mysql-primary
     networks:
       - backend-net
 
-  # Frontend (Datastar PHP app)
+  # Frontend (React SPA served by nginx)
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: readinvoice-frontend
+    container_name: procom-frontend
     restart: unless-stopped
-    environment:
-      BACKEND_URL: ${BACKEND_URL}
-      LOG_LEVEL: ${LOG_LEVEL}
     ports:
-      - "8081:9001"
+      - "80:9001"
     depends_on:
       - backend
     networks:
       - frontend-net
 
+  # Compliance Worker (cron - checks vendor expiry, budget thresholds)
+  compliance-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: procom-compliance-worker
+    restart: unless-stopped
+    command: php /var/www/html/bin/compliance-worker.php
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      COMPLIANCE_POLL_INTERVAL: "3600"
+      LOG_LEVEL: ${LOG_LEVEL}
+    depends_on:
+      - mysql-primary
+    networks:
+      - backend-net
+
+  # Email Queue Worker (sends queued email notifications)
+  email-queue-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: procom-email-queue-worker
+    restart: unless-stopped
+    command: php /var/www/html/bin/email-queue-worker.php
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      SMTP_HOST: mailhog
+      SMTP_PORT: "1025"
+      SMTP_FROM_EMAIL: noreply@procom.local
+      SMTP_FROM_NAME: proCom System
+      EMAIL_QUEUE_POLL_INTERVAL: "30"
+      LOG_LEVEL: ${LOG_LEVEL}
+    depends_on:
+      - mysql-primary
+      - mailhog
+    networks:
+      - backend-net
+
+  # SFTP Watcher (monitors directory for CSV imports)
+  sftp-watcher:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: procom-sftp-watcher
+    restart: unless-stopped
+    command: php /var/www/html/bin/sftp-watcher.php
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      SFTP_WATCH_DIR: /var/sftp/incoming
+      SFTP_PROCESSED_DIR: /var/sftp/processed
+      SFTP_POLL_INTERVAL: "60"
+      LOG_LEVEL: ${LOG_LEVEL}
+    volumes:
+      - sftp_incoming:/var/sftp/incoming
+      - sftp_processed:/var/sftp/processed
+    depends_on:
+      - mysql-primary
+    networks:
+      - backend-net
+
+  # MailHog (development SMTP server with web UI)
+  mailhog:
+    image: mailhog/mailhog
+    container_name: procom-mailhog
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - backend-net
+
 volumes:
   mysql_primary_data:
   uploads:
+  sftp_incoming:
+  sftp_processed:
 
 networks:
   backend-net:

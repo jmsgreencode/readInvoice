@@ -38,8 +38,6 @@ class MigrationRunner
             }
 
             try {
-                $this->db->beginTransaction();
-
                 $statements = array_filter(
                     array_map('trim', explode(';', $sql)),
                     fn(string $s) => $s !== ''
@@ -54,12 +52,8 @@ class MigrationRunner
                     [$name]
                 );
 
-                $this->db->commit();
                 $this->logger->info('Migration applied', ['migration' => $name]);
             } catch (\Exception $e) {
-                if ($this->db->inTransaction()) {
-                    $this->db->rollBack();
-                }
                 $this->logger->error('Migration failed', [
                     'migration' => $name,
                     'error' => $e->getMessage(),

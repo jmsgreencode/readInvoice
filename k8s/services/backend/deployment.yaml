@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: backend
     version: "1.0.0"
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: readinvoice
+      app: procom
       component: backend
   strategy:
     type: RollingUpdate
@@ -21,11 +21,11 @@ spec:
   template:
     metadata:
       labels:
-        app: readinvoice
+        app: procom
         component: backend
         version: "1.0.0"
     spec:
-      serviceAccountName: readinvoice-sa
+      serviceAccountName: procom-sa
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
@@ -40,18 +40,18 @@ spec:
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: backend
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: ScheduleAnyway
           labelSelector:
             matchLabels:
-              app: readinvoice
+              app: procom
               component: backend
       containers:
         - name: php-fpm
-          image: readinvoice/backend:latest
+          image: procom/backend:latest
           ports:
             - containerPort: 9000
               protocol: TCP
@@ -60,7 +60,7 @@ spec:
             - configMapRef:
                 name: backend-config
             - secretRef:
-                name: readinvoice-secrets
+                name: procom-secrets
           resources:
             requests:
               cpu: 250m

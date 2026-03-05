@@ -2,37 +2,48 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: frontend-config
-  namespace: readinvoice
+  namespace: procom
   labels:
-    app: readinvoice
+    app: procom
     component: frontend
 data:
-  BACKEND_API_URL: "http://backend.readinvoice.svc.cluster.local:8080"
-  PHP_FPM_PM: "dynamic"
-  PHP_FPM_MAX_CHILDREN: "30"
-  PHP_FPM_START_SERVERS: "3"
-  PHP_FPM_MIN_SPARE_SERVERS: "3"
-  PHP_FPM_MAX_SPARE_SERVERS: "20"
   nginx.conf: |
     server {
-        listen 8081;
+        listen 9001;
         server_name _;
-        root /var/www/html/public;
-        index index.php;
+        root /usr/share/nginx/html;
+        index index.html;
+
+        charset utf-8;
+        client_max_body_size 12M;
+
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "DENY" always;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+        server_tokens off;
+
+        location /api/ {
+            proxy_pass http://backend.procom.svc.cluster.local:8080/api/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /assets/ {
+            expires 30d;
+            add_header Cache-Control "public, immutable";
+            try_files $uri =404;
+        }
 
         location / {
-            try_files $uri $uri/ /index.php?$query_string;
+            try_files $uri $uri/ /index.html;
         }
 
-        location ~ \.php$ {
-            fastcgi_pass 127.0.0.1:9001;
-            fastcgi_index index.php;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            include fastcgi_params;
-            fastcgi_read_timeout 300;
-        }
-
-        location ~ /\.ht {
-            deny all;
+        location = /health {
+            access_log off;
+            return 200 'ok';
+            add_header Content-Type text/plain;
         }
     }

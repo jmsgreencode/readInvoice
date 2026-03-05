@@ -1,7 +1,7 @@
 {
-  "name": "readinvoice-outlook-addin",
+  "name": "procom-outlook-addin",
   "version": "1.0.0",
-  "description": "Outlook Add-in for ReadInvoice - detects invoices in emails and sends them to the backend API",
+  "description": "Outlook Add-in for proCom - detects invoices in emails and sends them to the backend API",
   "private": true,
   "scripts": {
     "build": "webpack --mode production",

@@ -1,5 +1,5 @@
 /**
- * TypeScript interfaces for the ReadInvoice Outlook Add-in.
+ * TypeScript interfaces for the proCom Outlook Add-in.
  */
 
 /** Raw email data extracted from the Outlook item. */

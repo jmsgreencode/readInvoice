@@ -25,15 +25,7 @@ services:
     profiles:
       - with-worker
 
-  frontend:
-    environment:
-      BACKEND_URL: http://backend:8080
-      APP_DEBUG: "true"
-      SESSION_SECURE: "false"
-      LOG_LEVEL: debug
-    volumes:
-      - ./frontend/src:/var/www/html/src:ro
-      - ./frontend/public:/var/www/html/public:ro
+  frontend: {}
 
   # Disable MySQL Router in dev - connect directly to primary
   mysql-router:

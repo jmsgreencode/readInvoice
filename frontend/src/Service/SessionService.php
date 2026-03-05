@@ -30,9 +30,12 @@ class SessionService
         ini_set('session.use_cookies', '1');
         ini_set('session.use_only_cookies', '1');
         ini_set('session.cookie_httponly', '1');
-        ini_set('session.cookie_samesite', 'Strict');
+        ini_set('session.cookie_samesite', 'Lax');
         ini_set('session.sid_length', '48');
         ini_set('session.sid_bits_per_character', '6');
+
+        $secure = filter_var(getenv('SESSION_SECURE') ?: 'false', FILTER_VALIDATE_BOOLEAN);
+        ini_set('session.cookie_secure', $secure ? '1' : '0');
 
         session_name('READINVOICE_SESSID');
         session_start();

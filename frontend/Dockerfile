@@ -27,53 +27,31 @@ COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
 # Configure Nginx
 COPY nginx.conf /etc/nginx/http.d/default.conf
-RUN rm -f /etc/nginx/http.d/default.conf.bak
 
 # Configure supervisord
-RUN mkdir -p /var/log/supervisor
-COPY <<'SUPERVISOR' /etc/supervisord.conf
-[supervisord]
-nodaemon=true
-logfile=/var/log/supervisor/supervisord.log
-pidfile=/var/run/supervisord.pid
-
-[program:php-fpm]
-command=php-fpm --nodaemonize
-autostart=true
-autorestart=true
-stdout_logfile=/dev/stdout
-stdout_logfile_maxbytes=0
-stderr_logfile=/dev/stderr
-stderr_logfile_maxbytes=0
-
-[program:nginx]
-command=nginx -g 'daemon off;'
-autostart=true
-autorestart=true
-stdout_logfile=/dev/stdout
-stdout_logfile_maxbytes=0
-stderr_logfile=/dev/stderr
-stderr_logfile_maxbytes=0
-SUPERVISOR
+COPY supervisord.conf /etc/supervisord.conf
 
 # Set working directory
 WORKDIR /var/www/html
 
 # Copy composer files first for layer caching
-COPY composer.json composer.lock* ./
+COPY composer.json ./
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction || \
-    composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction 2>/dev/null || true
 
 # Copy application source
 COPY . .
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/public \
-    && mkdir -p /var/www/html/var/log /var/www/html/var/sessions \
-    && chown -R www-data:www-data /var/www/html/var
+# Install again with full source
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Set permissions and create required dirs
+RUN mkdir -p /var/www/html/var/log /var/www/html/var/sessions \
+    /var/log/nginx /var/run/nginx /var/lib/nginx/tmp \
+    && chown -R www-data:www-data /var/www/html \
+    && chown -R www-data:www-data /var/log/nginx /var/run/nginx /var/lib/nginx \
+    && chmod -R 755 /var/www/html/public
 
 EXPOSE 9001
 

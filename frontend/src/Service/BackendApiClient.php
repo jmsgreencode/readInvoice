@@ -126,18 +126,19 @@ class BackendApiClient
 
             $decoded = json_decode($body, true);
 
-            if ($statusCode === 401) {
-                // JWT expired or invalid -- clear session
+            if ($statusCode === 401 && $this->session->has('jwt_token')) {
+                // JWT expired or invalid -- clear session (not during login)
                 $this->session->remove('jwt_token');
-                throw new \RuntimeException('Authentication expired. Please log in again.', 401);
+            }
+
+            // For 4xx errors, return the decoded body so callers can handle
+            // (e.g., login controller checks for error messages)
+            if ($decoded !== null) {
+                return $decoded;
             }
 
             if ($statusCode >= 400) {
-                $message = $decoded['message'] ?? $decoded['error'] ?? "HTTP {$statusCode}";
-                throw new \RuntimeException(
-                    "Backend API error: {$message}",
-                    $statusCode
-                );
+                throw new \RuntimeException("Backend API returned HTTP {$statusCode}", $statusCode);
             }
 
             return $decoded ?? [];

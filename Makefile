@@ -1,4 +1,4 @@
-.PHONY: build up down restart logs migrate test test-coverage smoke sanity checksums verify-checksums lint clean
+.PHONY: build up down restart logs migrate seed test test-coverage smoke sanity checksums verify-checksums lint clean
 
 # Build all Docker images
 build:
@@ -22,6 +22,10 @@ logs:
 # Run database migrations
 migrate:
 	docker compose exec backend php bin/migrate.php
+
+# Seed database with dummy data
+seed:
+	docker compose exec backend php bin/seed.php
 
 # Run unit tests
 test:
@@ -65,6 +69,13 @@ clean:
 # Full setup from scratch
 setup: build up
 	@echo "Waiting for services to be ready..."
-	@sleep 10
+	@echo "Waiting for MySQL to be ready..."
+	@sleep 15
 	$(MAKE) migrate
-	@echo "Setup complete. Frontend: http://localhost:8081, Backend: http://localhost:8080"
+	$(MAKE) seed
+	@echo ""
+	@echo "=== Setup complete ==="
+	@echo "Frontend: http://localhost:8081"
+	@echo "Backend:  http://localhost:8080"
+	@echo ""
+	@echo "Login: admin / admin123"

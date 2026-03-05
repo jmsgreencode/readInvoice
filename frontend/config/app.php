@@ -11,7 +11,7 @@ return [
     ],
 
     'backend' => [
-        'url' => $_ENV['BACKEND_URL'] ?? 'http://backend:9000',
+        'url' => getenv('BACKEND_URL') ?: ($_ENV['BACKEND_URL'] ?? 'http://backend:8080'),
         'timeout' => (int) ($_ENV['BACKEND_TIMEOUT'] ?? 30),
         'connect_timeout' => (int) ($_ENV['BACKEND_CONNECT_TIMEOUT'] ?? 5),
     ],
@@ -21,7 +21,7 @@ return [
         'lifetime' => 3600,
         'path' => '/',
         'domain' => '',
-        'secure' => (bool) ($_ENV['SESSION_SECURE'] ?? true),
+        'secure' => filter_var(getenv('SESSION_SECURE') ?: ($_ENV['SESSION_SECURE'] ?? 'false'), FILTER_VALIDATE_BOOLEAN),
         'httponly' => true,
         'samesite' => 'Strict',
     ],

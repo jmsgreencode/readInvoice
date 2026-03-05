@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     INDEX idx_users_active (is_active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Default admin user (password: change_me_immediately)
--- Password hash generated with password_hash('change_me_immediately', PASSWORD_ARGON2ID)
+-- Default admin user (password: admin123) - CHANGE IN PRODUCTION
+-- Hash generated with password_hash('admin123', PASSWORD_BCRYPT)
 INSERT INTO users (username, password_hash, role) VALUES
-('admin', '$argon2id$v=19$m=65536,t=4,p=1$generated_salt$generated_hash', 'admin');
+('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');

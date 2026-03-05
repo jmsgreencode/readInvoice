@@ -33,15 +33,15 @@
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken ?? '', ENT_QUOTES, 'UTF-8') ?>">
 
                     <div class="form-group">
-                        <label class="form-label" for="email">Email Address</label>
+                        <label class="form-label" for="username">Username</label>
                         <input
-                            type="email"
-                            id="email"
-                            name="email"
+                            type="text"
+                            id="username"
+                            name="username"
                             class="form-input"
-                            placeholder="you@company.com"
+                            placeholder="Enter your username"
                             required
-                            autocomplete="email"
+                            autocomplete="username"
                             autofocus
                         >
                     </div>

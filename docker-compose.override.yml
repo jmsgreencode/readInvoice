@@ -1,0 +1,41 @@
+version: '3.8'
+
+# Local development overrides
+# This file is automatically loaded by docker-compose alongside docker-compose.yml
+
+services:
+  # For local dev, backend connects directly to MySQL (no router needed)
+  backend:
+    environment:
+      DB_HOST: mysql-primary
+      DB_PORT: "3306"
+      DB_PORT_RO: "3306"
+      APP_DEBUG: "true"
+      LOG_LEVEL: debug
+    volumes:
+      - ./backend/src:/var/www/html/src:ro
+      - ./backend/config:/var/www/html/config:ro
+      - ./backend/public:/var/www/html/public:ro
+
+  email-worker:
+    environment:
+      DB_HOST: mysql-primary
+      DB_PORT: "3306"
+    # Don't run the email worker by default in dev (no Graph API token)
+    profiles:
+      - with-worker
+
+  frontend:
+    environment:
+      BACKEND_URL: http://backend:8080
+      APP_DEBUG: "true"
+      SESSION_SECURE: "false"
+      LOG_LEVEL: debug
+    volumes:
+      - ./frontend/src:/var/www/html/src:ro
+      - ./frontend/public:/var/www/html/public:ro
+
+  # Disable MySQL Router in dev - connect directly to primary
+  mysql-router:
+    profiles:
+      - with-router

@@ -28,10 +28,10 @@ class VendorEmailController
         $this->session->start();
 
         try {
-            $vendors = $this->api->get('/api/vendors');
+            $result = $this->api->get('/api/vendors');
 
             ob_start();
-            $viewData = ['vendors' => $vendors['data'] ?? []];
+            $viewData = ['vendors' => $result['data']['vendors'] ?? []];
             extract($viewData);
             include __DIR__ . '/../View/Partial/vendor-list.php';
             $html = ob_get_clean();
@@ -61,8 +61,11 @@ class VendorEmailController
 
         try {
             $result = $this->api->get("/api/vendors/{$vendorId}/emails");
-            $emails = $result['data'] ?? [];
-            $vendor = $result['vendor'] ?? ['id' => $vendorId, 'name' => 'Unknown Vendor'];
+            $emails = $result['data']['emails'] ?? [];
+
+            // Also fetch vendor details
+            $vendorResult = $this->api->get("/api/vendors/{$vendorId}");
+            $vendor = $vendorResult['data']['vendor'] ?? ['id' => $vendorId, 'name' => 'Unknown Vendor'];
 
             ob_start();
             $viewData = [

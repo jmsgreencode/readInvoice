@@ -18,14 +18,10 @@ class AuthPageController
         private readonly LoggerInterface $logger,
     ) {}
 
-    /**
-     * Render the login page.
-     */
     public function showLogin(Request $request, Response $response): Response
     {
         $this->session->start();
 
-        // Already logged in? Redirect to dashboard.
         if ($this->session->get('user') !== null) {
             return $response
                 ->withHeader('Location', '/dashboard')
@@ -49,15 +45,12 @@ class AuthPageController
         return $response->withHeader('Content-Type', 'text/html; charset=utf-8');
     }
 
-    /**
-     * Handle login form submission.
-     */
     public function handleLogin(Request $request, Response $response): Response
     {
         $this->session->start();
 
         $body = $request->getParsedBody();
-        $email = trim((string) ($body['email'] ?? ''));
+        $username = trim((string) ($body['username'] ?? ''));
         $password = (string) ($body['password'] ?? '');
         $csrfToken = (string) ($body['csrf_token'] ?? '');
 
@@ -71,43 +64,41 @@ class AuthPageController
         }
 
         // Validate input
-        if ($email === '' || $password === '') {
-            $this->session->setFlash('login_error', 'Email and password are required.');
-            return $response->withHeader('Location', '/login')->withStatus(302);
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->session->setFlash('login_error', 'Please enter a valid email address.');
+        if ($username === '' || $password === '') {
+            $this->session->setFlash('login_error', 'Username and password are required.');
             return $response->withHeader('Location', '/login')->withStatus(302);
         }
 
         try {
             $result = $this->api->post('/api/auth/login', [
-                'email' => $email,
+                'username' => $username,
                 'password' => $password,
             ]);
 
-            if (!empty($result['token']) && !empty($result['user'])) {
-                // Regenerate session ID to prevent fixation
+            // Backend wraps response in {success: true, data: {...}}
+            $data = $result['data'] ?? $result;
+
+            if (!empty($data['token']) && !empty($data['user'])) {
                 $this->session->regenerate();
 
-                $this->session->set('user', $result['user']);
-                $this->session->set('jwt_token', $result['token']);
+                $this->session->set('user', $data['user']);
+                $this->session->set('jwt_token', $data['token']);
                 $this->session->set('login_time', time());
 
                 $this->logger->info('User logged in', [
-                    'user_id' => $result['user']['id'] ?? null,
-                    'email' => $email,
+                    'user_id' => $data['user']['id'] ?? null,
+                    'username' => $username,
                 ]);
 
                 return $response->withHeader('Location', '/dashboard')->withStatus(302);
             }
 
-            $this->session->setFlash('login_error', $result['message'] ?? 'Invalid credentials.');
+            $errorMsg = $result['error']['message'] ?? $data['message'] ?? 'Invalid credentials.';
+            $this->session->setFlash('login_error', $errorMsg);
             return $response->withHeader('Location', '/login')->withStatus(302);
         } catch (\Throwable $e) {
             $this->logger->error('Login request failed', [
-                'email' => $email,
+                'username' => $username,
                 'error' => $e->getMessage(),
             ]);
             $this->session->setFlash('login_error', 'Authentication service unavailable. Please try again later.');
@@ -115,9 +106,6 @@ class AuthPageController
         }
     }
 
-    /**
-     * Log out the current user.
-     */
     public function logout(Request $request, Response $response): Response
     {
         $this->session->start();

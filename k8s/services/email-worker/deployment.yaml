@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-worker
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: email-worker
+    version: "1.0.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: readinvoice
+      component: email-worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: readinvoice
+        component: email-worker
+        version: "1.0.0"
+    spec:
+      serviceAccountName: readinvoice-sa
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: email-worker
+          image: readinvoice/backend:latest
+          command:
+            - php
+            - /var/www/html/bin/email-worker.php
+          envFrom:
+            - configMapRef:
+                name: backend-config
+            - secretRef:
+                name: readinvoice-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          livenessProbe:
+            exec:
+              command:
+                - php
+                - -r
+                - "echo 'alive';"
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: upload-data
+              mountPath: /var/www/uploads
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: upload-data
+          emptyDir: {}

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-backup-pvc
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: mysql
+    version: "8.4"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: vmware-system-csi
+  resources:
+    requests:
+      storage: 50Gi

@@ -1,0 +1,40 @@
+# Dependencies
+/backend/vendor/
+/frontend/vendor/
+node_modules/
+
+# Environment
+.env
+
+# Uploads
+/uploads/*
+!/uploads/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes
+mysql_data/
+
+# Composer
+composer.lock
+
+# Test coverage
+coverage/
+.phpunit.cache/
+
+# Build artifacts
+SHA256SUMS
+
+# Outlook add-in build
+outlook-addin/dist/
+
+# Log files
+*.log

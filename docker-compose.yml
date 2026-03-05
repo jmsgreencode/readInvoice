@@ -1,0 +1,140 @@
+version: '3.8'
+
+services:
+  # MySQL Primary Node
+  mysql-primary:
+    image: mysql:8.4
+    container_name: readinvoice-mysql-primary
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_primary_data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend-net
+
+  # MySQL Router for automatic failover
+  mysql-router:
+    build:
+      context: ./mysql/router
+      dockerfile: Dockerfile
+    container_name: readinvoice-mysql-router
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: mysql-primary
+      MYSQL_PORT: "3306"
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "6446:6446"
+      - "6447:6447"
+    depends_on:
+      mysql-primary:
+        condition: service_healthy
+    networks:
+      - backend-net
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: readinvoice-backend
+    restart: unless-stopped
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_PORT_RO: ${DB_PORT_RO}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      APP_DEBUG: ${APP_DEBUG}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRY: ${JWT_EXPIRY}
+      UPLOAD_DIR: ${UPLOAD_DIR}
+      TESSERACT_LANG: ${TESSERACT_LANG}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+      VSPHERE_URL: ${VSPHERE_URL}
+      VSPHERE_USER: ${VSPHERE_USER}
+      VSPHERE_PASS: ${VSPHERE_PASS}
+      VSPHERE_SSL_VERIFY: ${VSPHERE_SSL_VERIFY}
+      RATE_LIMIT_DEFAULT: ${RATE_LIMIT_DEFAULT}
+      LOG_LEVEL: ${LOG_LEVEL}
+    ports:
+      - "8080:8080"
+    volumes:
+      - uploads:/var/www/uploads
+    depends_on:
+      mysql-router:
+        condition: service_started
+    networks:
+      - backend-net
+      - frontend-net
+
+  # Email Worker (background daemon)
+  email-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: readinvoice-email-worker
+    restart: unless-stopped
+    command: php /var/www/html/bin/email-worker.php
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      UPLOAD_DIR: ${UPLOAD_DIR}
+      TESSERACT_LANG: ${TESSERACT_LANG}
+      GRAPH_API_URL: ${GRAPH_API_URL}
+      GRAPH_API_TOKEN: ${GRAPH_API_TOKEN}
+      EMAIL_POLL_INTERVAL: ${EMAIL_POLL_INTERVAL}
+      EMAIL_MAILBOX: ${EMAIL_MAILBOX}
+      LOG_LEVEL: ${LOG_LEVEL}
+    volumes:
+      - uploads:/var/www/uploads
+    depends_on:
+      - backend
+      - mysql-router
+    networks:
+      - backend-net
+
+  # Frontend (Datastar PHP app)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: readinvoice-frontend
+    restart: unless-stopped
+    environment:
+      BACKEND_URL: ${BACKEND_URL}
+      LOG_LEVEL: ${LOG_LEVEL}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - backend
+    networks:
+      - frontend-net
+
+volumes:
+  mysql_primary_data:
+  uploads:
+
+networks:
+  backend-net:
+    driver: bridge
+  frontend-net:
+    driver: bridge

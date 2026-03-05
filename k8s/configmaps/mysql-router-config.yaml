@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-router-config
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: mysql-router
+data:
+  MYSQL_HOST: "mysql-0.mysql-headless.readinvoice.svc.cluster.local"
+  MYSQL_PORT: "3306"
+  MYSQL_INNODB_CLUSTER_MEMBERS: "3"
+  MYSQL_ROUTER_BOOTSTRAP_EXTRA_OPTIONS: "--conf-use-sockets --conf-skip-tcp"
+  mysqlrouter.conf: |
+    [DEFAULT]
+    logging_folder = /tmp/mysqlrouter/log
+    runtime_folder = /tmp/mysqlrouter/run
+    data_folder = /tmp/mysqlrouter/data
+    keyring_path = /tmp/mysqlrouter/data/keyring
+    master_key_path = /tmp/mysqlrouter/mysqlrouter.key
+
+    [logger]
+    level = INFO
+
+    [metadata_cache:bootstrap]
+    cluster_type = gr
+    router_id = 1
+    user = mysql_router_user
+    metadata_cluster = readinvoice_cluster
+    ttl = 0.5
+    auth_cache_ttl = -1
+    auth_cache_refresh_interval = 2
+
+    [routing:bootstrap_rw]
+    bind_address = 0.0.0.0
+    bind_port = 6446
+    destinations = metadata-cache://readinvoice_cluster/?role=PRIMARY
+    routing_strategy = first-available
+    protocol = classic
+    connect_timeout = 30
+    client_connect_timeout = 30
+
+    [routing:bootstrap_ro]
+    bind_address = 0.0.0.0
+    bind_port = 6447
+    destinations = metadata-cache://readinvoice_cluster/?role=SECONDARY
+    routing_strategy = round-robin-with-fallback
+    protocol = classic
+    connect_timeout = 30
+    client_connect_timeout = 30

@@ -1,0 +1,254 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: network-policy
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: network-policy
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to: []
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-policy
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: readinvoice
+      component: frontend
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector: {}
+          podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8081
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: backend
+      ports:
+        - protocol: TCP
+          port: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-policy
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: readinvoice
+      component: backend
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: frontend
+      ports:
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 9000
+    - from:
+        - namespaceSelector: {}
+          podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8080
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: mysql-router
+      ports:
+        - protocol: TCP
+          port: 6446
+        - protocol: TCP
+          port: 6447
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: email-worker-policy
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: readinvoice
+      component: email-worker
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress: []
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: backend
+      ports:
+        - protocol: TCP
+          port: 8080
+    - to:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: mysql-router
+      ports:
+        - protocol: TCP
+          port: 6446
+        - protocol: TCP
+          port: 6447
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mysql-router-policy
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: readinvoice
+      component: mysql-router
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: backend
+      ports:
+        - protocol: TCP
+          port: 6446
+        - protocol: TCP
+          port: 6447
+    - from:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: email-worker
+      ports:
+        - protocol: TCP
+          port: 6446
+        - protocol: TCP
+          port: 6447
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: mysql
+      ports:
+        - protocol: TCP
+          port: 3306
+        - protocol: TCP
+          port: 33060
+        - protocol: TCP
+          port: 33061
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mysql-policy
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: network-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: readinvoice
+      component: mysql
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: mysql-router
+      ports:
+        - protocol: TCP
+          port: 3306
+        - protocol: TCP
+          port: 33060
+        - protocol: TCP
+          port: 33061
+    - from:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: mysql
+      ports:
+        - protocol: TCP
+          port: 3306
+        - protocol: TCP
+          port: 33060
+        - protocol: TCP
+          port: 33061
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: readinvoice
+              component: mysql
+      ports:
+        - protocol: TCP
+          port: 3306
+        - protocol: TCP
+          port: 33060
+        - protocol: TCP
+          port: 33061

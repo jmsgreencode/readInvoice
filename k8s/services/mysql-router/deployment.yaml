@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-router
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: mysql-router
+    version: "8.4"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: readinvoice
+      component: mysql-router
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: readinvoice
+        component: mysql-router
+        version: "8.4"
+    spec:
+      serviceAccountName: readinvoice-sa
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: readinvoice
+              component: mysql-router
+      containers:
+        - name: mysql-router
+          image: mysql/mysql-router:8.4
+          ports:
+            - containerPort: 6446
+              protocol: TCP
+              name: mysql-rw
+            - containerPort: 6447
+              protocol: TCP
+              name: mysql-ro
+          env:
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-router-config
+                  key: MYSQL_HOST
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-router-config
+                  key: MYSQL_PORT
+            - name: MYSQL_USER
+              value: "mysql_router_user"
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: readinvoice-secrets
+                  key: MYSQL_ROUTER_PASSWORD
+            - name: MYSQL_INNODB_CLUSTER_MEMBERS
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-router-config
+                  key: MYSQL_INNODB_CLUSTER_MEMBERS
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          readinessProbe:
+            tcpSocket:
+              port: 6446
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            tcpSocket:
+              port: 6446
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 5
+          volumeMounts:
+            - name: router-tmp
+              mountPath: /tmp
+            - name: router-data
+              mountPath: /tmp/mysqlrouter
+      volumes:
+        - name: router-tmp
+          emptyDir: {}
+        - name: router-data
+          emptyDir: {}

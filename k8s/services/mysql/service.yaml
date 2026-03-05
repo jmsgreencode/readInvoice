@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-headless
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: mysql
+    version: "8.4"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: readinvoice
+    component: mysql
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+      protocol: TCP
+    - name: mysqlx
+      port: 33060
+      targetPort: 33060
+      protocol: TCP
+    - name: mysql-gr
+      port: 33061
+      targetPort: 33061
+      protocol: TCP
+  publishNotReadyAddresses: true

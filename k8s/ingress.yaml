@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: readinvoice-ingress
+  namespace: readinvoice
+  labels:
+    app: readinvoice
+    component: ingress
+    version: "1.0.0"
+  annotations:
+    kubernetes.io/ingress.class: nsx
+    ingress.nsx.vmware.com/use-regex: "true"
+    ingress.nsx.vmware.com/connection-timeout: "60"
+    ingress.nsx.vmware.com/read-timeout: "300"
+spec:
+  ingressClassName: nsx
+  rules:
+    - host: readinvoice.example.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8080
+          - path: /health
+            pathType: Exact
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8080
+          - path: /app
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 8081

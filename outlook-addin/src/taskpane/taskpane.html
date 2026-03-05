@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self' https://readinvoice.example.com;
+             script-src 'self' https://appsforoffice.microsoft.com;
+             style-src 'self' 'unsafe-inline';
+             img-src 'self' data:;
+             connect-src 'self' https://readinvoice.example.com;" />
+  <title>ReadInvoice - Invoice Detector</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="app">
+    <header id="header">
+      <h1>ReadInvoice</h1>
+      <p class="subtitle">Invoice Detection</p>
+    </header>
+
+    <section id="loading-section" class="section">
+      <div class="spinner"></div>
+      <p>Analyzing email...</p>
+    </section>
+
+    <section id="email-info-section" class="section hidden">
+      <h2>Email Details</h2>
+      <div class="field-group">
+        <label>Subject</label>
+        <div id="email-subject" class="field-value">--</div>
+      </div>
+      <div class="field-group">
+        <label>From</label>
+        <div id="email-from" class="field-value">--</div>
+      </div>
+      <div class="field-group">
+        <label>Attachments</label>
+        <div id="email-attachments" class="field-value">--</div>
+      </div>
+    </section>
+
+    <section id="detection-section" class="section hidden">
+      <h2>Invoice Detection</h2>
+      <div id="confidence-bar-container">
+        <div class="confidence-label">
+          <span>Confidence</span>
+          <span id="confidence-value">0%</span>
+        </div>
+        <div class="confidence-bar">
+          <div id="confidence-fill" class="confidence-fill" style="width: 0%"></div>
+        </div>
+      </div>
+      <div id="detection-status" class="status-badge status-unknown">Unknown</div>
+
+      <div id="detected-fields" class="fields-container hidden">
+        <h3>Detected Fields</h3>
+        <div class="field-group">
+          <label>Invoice #</label>
+          <div id="field-invoice-number" class="field-value">--</div>
+        </div>
+        <div class="field-group">
+          <label>Amount</label>
+          <div id="field-amount" class="field-value">--</div>
+        </div>
+        <div class="field-group">
+          <label>Due Date</label>
+          <div id="field-due-date" class="field-value">--</div>
+        </div>
+        <div class="field-group">
+          <label>Vendor</label>
+          <div id="field-vendor" class="field-value">--</div>
+        </div>
+        <div class="field-group">
+          <label>PO Number</label>
+          <div id="field-po-number" class="field-value">--</div>
+        </div>
+      </div>
+
+      <div id="signals-container" class="hidden">
+        <h3>Detection Signals</h3>
+        <ul id="signals-list"></ul>
+      </div>
+    </section>
+
+    <section id="action-section" class="section hidden">
+      <button id="send-button" class="btn btn-primary" disabled>
+        Send to ReadInvoice
+      </button>
+      <button id="rescan-button" class="btn btn-secondary">
+        Rescan Email
+      </button>
+    </section>
+
+    <section id="status-section" class="section hidden">
+      <div id="status-message" class="status-message"></div>
+    </section>
+
+    <section id="error-section" class="section hidden">
+      <div class="error-container">
+        <h3>Error</h3>
+        <p id="error-message"></p>
+        <button id="retry-button" class="btn btn-secondary">Retry</button>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

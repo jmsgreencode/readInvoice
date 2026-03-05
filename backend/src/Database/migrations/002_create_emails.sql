@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS emails (
+    id                  BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    vendor_id           BIGINT UNSIGNED DEFAULT NULL,
+    outlook_msg_id      VARCHAR(512) NOT NULL UNIQUE,
+    from_address        VARCHAR(255) NOT NULL,
+    from_name           VARCHAR(255) DEFAULT NULL,
+    subject             VARCHAR(1000) DEFAULT NULL,
+    received_at         TIMESTAMP NOT NULL,
+    body_preview        TEXT DEFAULT NULL,
+    has_attachments     TINYINT(1) DEFAULT 0,
+    has_invoice         TINYINT(1) DEFAULT 0,
+    processing_status   ENUM('pending','processing','completed','failed') DEFAULT 'pending',
+    error_message       TEXT DEFAULT NULL,
+    created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (vendor_id) REFERENCES vendors(id) ON DELETE SET NULL,
+    INDEX idx_emails_vendor (vendor_id),
+    INDEX idx_emails_status (processing_status),
+    INDEX idx_emails_received (received_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

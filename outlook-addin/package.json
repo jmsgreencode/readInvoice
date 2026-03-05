@@ -1,0 +1,52 @@
+{
+  "name": "readinvoice-outlook-addin",
+  "version": "1.0.0",
+  "description": "Outlook Add-in for ReadInvoice - detects invoices in emails and sends them to the backend API",
+  "private": true,
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "dev": "webpack serve --mode development",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "validate": "office-addin-manifest validate manifest.xml",
+    "start": "webpack serve --mode development --open"
+  },
+  "dependencies": {
+    "@microsoft/office-js": "^1.1.89"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/office-js": "^1.0.377",
+    "@types/office-runtime": "^1.0.35",
+    "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.0",
+    "jest": "^29.7.0",
+    "mini-css-extract-plugin": "^2.9.0",
+    "office-addin-mock": "^2.4.4",
+    "style-loader": "^4.0.0",
+    "ts-jest": "^29.1.4",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/tests"
+    ],
+    "moduleNameMapper": {
+      "^@services/(.*)$": "<rootDir>/src/services/$1",
+      "^@types/(.*)$": "<rootDir>/src/types/$1"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts"
+    ]
+  }
+}

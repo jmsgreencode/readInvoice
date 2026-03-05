@@ -1,0 +1,366 @@
+backend/src/Security/CsrfTokenManager.php
+  5766ebb5f303dce7 1-40
+frontend/src/Controller/DashboardController.php
+  5766ebb5f303dce7 1-38
+backend/src/Service/PdfService.php
+  5766ebb5f303dce7 1-150
+backend/bin/email-worker.php
+  5766ebb5f303dce7 1-148
+backend/src/Database/migrations/006_create_circuit_breaker_state.sql
+  5766ebb5f303dce7 1-9
+k8s/services/email-worker/deployment.yaml
+  5766ebb5f303dce7 1-80
+k8s/services/mysql-router/deployment.yaml
+  5766ebb5f303dce7 1-114
+backend/src/DTO/InvoiceDTO.php
+  5766ebb5f303dce7 1-64
+outlook-addin/tsconfig.json
+  5766ebb5f303dce7 1-42
+backend/src/Middleware/CorsMiddleware.php
+  5766ebb5f303dce7 1-51
+outlook-addin/src/services/api-client.ts
+  5766ebb5f303dce7 1-273
+outlook-addin/src/taskpane/taskpane.ts
+  5766ebb5f303dce7 1-436
+frontend/src/View/Partial/admin-log-panel.php
+  5766ebb5f303dce7 1-37
+backend/src/Model/Invoice.php
+  5766ebb5f303dce7 1-49
+backend/src/Service/VSphereService.php
+  5766ebb5f303dce7 1-131
+frontend/tests/Smoke/HealthCheckTest.php
+  5766ebb5f303dce7 1-43
+backend/src/Model/Vendor.php
+  5766ebb5f303dce7 1-31
+frontend/tests/Sanity/SessionTest.php
+  5766ebb5f303dce7 1-148
+backend/tests/Smoke/HealthCheckTest.php
+  5766ebb5f303dce7 1-91
+frontend/src/Service/SessionService.php
+  5766ebb5f303dce7 1-173
+outlook-addin/src/taskpane/taskpane.css
+  5766ebb5f303dce7 1-378
+backend/tests/Sanity/DatabaseConnectionTest.php
+  5766ebb5f303dce7 1-66
+outlook-addin/Dockerfile
+  5766ebb5f303dce7 1-99
+frontend/src/Middleware/RateLimitMiddleware.php
+  5766ebb5f303dce7 1-118
+mysql/router/Dockerfile
+  5766ebb5f303dce7 1-8
+backend/src/Middleware/CircuitBreakerMiddleware.php
+  5766ebb5f303dce7 1-45
+k8s/services/backend/hpa.yaml
+  5766ebb5f303dce7 1-42
+k8s/services/mysql/statefulset.yaml
+  5766ebb5f303dce7 1-138
+backend/src/Database/migrations/005_create_audit_logs.sql
+  5766ebb5f303dce7 1-16
+k8s/services/frontend/service.yaml
+  5766ebb5f303dce7 1-23
+outlook-addin/package.json
+  5766ebb5f303dce7 1-52
+outlook-addin/src/services/email-reader.ts
+  5766ebb5f303dce7 1-135
+mysql/init/02-grants.sql
+  5766ebb5f303dce7 1-6
+backend/tests/Unit/Resilience/RateLimiterTest.php
+  5766ebb5f303dce7 1-81
+README.md
+  5766ebb5f303dce7 1-212
+k8s/secrets/sealed-secrets.yaml
+  5766ebb5f303dce7 1-40
+backend/src/Resilience/RateLimiter.php
+  5766ebb5f303dce7 1-129
+mysql/router/entrypoint.sh
+  5766ebb5f303dce7 1-48
+backend/src/Database/MigrationRunner.php
+  5766ebb5f303dce7 1-95
+frontend/src/Logging/StructuredLogger.php
+  5766ebb5f303dce7 1-73
+frontend/public/index.php
+  5766ebb5f303dce7 1-23
+.gitignore
+  db162b29609b0d7d 1-27
+  5766ebb5f303dce7 28-40
+outlook-addin/src/taskpane/taskpane.html
+  5766ebb5f303dce7 1-108
+k8s/networkpolicies.yaml
+  5766ebb5f303dce7 1-254
+backend/src/Model/Email.php
+  5766ebb5f303dce7 1-45
+backend/src/Exception/ValidationException.php
+  5766ebb5f303dce7 1-21
+frontend/src/Middleware/ErrorHandlerMiddleware.php
+  5766ebb5f303dce7 1-171
+backend/tests/Unit/Resilience/CircuitBreakerTest.php
+  5766ebb5f303dce7 1-89
+frontend/src/Middleware/AuthMiddleware.php
+  5766ebb5f303dce7 1-64
+backend/src/Middleware/ErrorHandlerMiddleware.php
+  5766ebb5f303dce7 1-127
+backend/supervisord.conf
+  5766ebb5f303dce7 1-24
+backend/tests/Unit/Middleware/ErrorHandlerMiddlewareTest.php
+  5766ebb5f303dce7 1-130
+backend/src/Controller/VendorController.php
+  5766ebb5f303dce7 1-113
+outlook-addin/src/services/invoice-detector.ts
+  5766ebb5f303dce7 1-307
+k8s/configmaps/frontend-config.yaml
+  5766ebb5f303dce7 1-38
+backend/src/Controller/AuthController.php
+  5766ebb5f303dce7 1-51
+backend/php-fpm.conf
+  5766ebb5f303dce7 1-23
+backend/src/Controller/EmailController.php
+  5766ebb5f303dce7 1-109
+backend/src/Kernel.php
+  5766ebb5f303dce7 1-248
+outlook-addin/src/commands/commands.ts
+  5766ebb5f303dce7 1-42
+backend/tests/Unit/Security/OutputEncoderTest.php
+  5766ebb5f303dce7 1-48
+backend/src/Service/InvoiceExtractionService.php
+  5766ebb5f303dce7 1-204
+frontend/src/View/vendor-emails.php
+  5766ebb5f303dce7 1-13
+backend/src/Controller/VSphereController.php
+  5766ebb5f303dce7 1-80
+k8s/rbac.yaml
+  5766ebb5f303dce7 1-54
+k8s/ingress.yaml
+  5766ebb5f303dce7 1-41
+frontend/composer.json
+  5766ebb5f303dce7 1-42
+backend/config/circuit_breaker.php
+  5766ebb5f303dce7 1-30
+backend/tests/Unit/Security/InputValidatorTest.php
+  5766ebb5f303dce7 1-108
+frontend/Dockerfile
+  5766ebb5f303dce7 1-80
+k8s/configmaps/mysql-router-config.yaml
+  5766ebb5f303dce7 1-50
+k8s/services/frontend/deployment.yaml
+  5766ebb5f303dce7 1-158
+frontend/tests/Unit/DatastarResponseBuilderTest.php
+  5766ebb5f303dce7 1-116
+scripts/verify-checksums.sh
+  5766ebb5f303dce7 1-43
+frontend/public/assets/css/app.css
+  5766ebb5f303dce7 1-738
+frontend/config/app.php
+  5766ebb5f303dce7 1-44
+frontend/php.ini
+  5766ebb5f303dce7 1-41
+outlook-addin/src/commands/commands.html
+  5766ebb5f303dce7 1-13
+backend/src/Middleware/RateLimitMiddleware.php
+  5766ebb5f303dce7 1-74
+frontend/src/View/invoice-detail.php
+  5766ebb5f303dce7 1-13
+outlook-addin/tests/unit/attachment-handler.test.ts
+  5766ebb5f303dce7 1-215
+k8s/configmaps/backend-config.yaml
+  5766ebb5f303dce7 1-52
+backend/phpunit.xml
+  5766ebb5f303dce7 1-36
+backend/src/Security/InputValidator.php
+  5766ebb5f303dce7 1-85
+scripts/generate-checksums.sh
+  5766ebb5f303dce7 1-28
+backend/src/Database/migrations/004_create_users.sql
+  5766ebb5f303dce7 1-17
+backend/src/Repository/AuditLogRepository.php
+  5766ebb5f303dce7 1-59
+backend/src/Model/User.php
+  5766ebb5f303dce7 1-38
+scripts/sanity-test.sh
+  5766ebb5f303dce7 1-51
+backend/config/rate_limiting.php
+  5766ebb5f303dce7 1-28
+k8s/namespace.yaml
+  5766ebb5f303dce7 1-12
+outlook-addin/manifest.xml
+  5766ebb5f303dce7 1-126
+mysql/init/01-create-databases.sql
+  5766ebb5f303dce7 1-15
+frontend/nginx.conf
+  5766ebb5f303dce7 1-82
+frontend/src/View/Layout/admin.php
+  5766ebb5f303dce7 1-12
+mysql/my.cnf
+  5766ebb5f303dce7 1-36
+scripts/smoke-test.sh
+  5766ebb5f303dce7 1-49
+.env.example
+  db162b29609b0d7d 3-4,6,11-12,14,19-20
+  5766ebb5f303dce7 1-2,5,7-10,13,15-18,21-43
+backend/src/Service/EmailIngestionService.php
+  5766ebb5f303dce7 1-204
+frontend/src/Middleware/CircuitBreakerMiddleware.php
+  5766ebb5f303dce7 1-155
+backend/src/DTO/VendorDTO.php
+  5766ebb5f303dce7 1-46
+backend/src/Service/VendorService.php
+  5766ebb5f303dce7 1-78
+k8s/services/backend/service.yaml
+  5766ebb5f303dce7 1-23
+frontend/src/Controller/InvoiceViewController.php
+  5766ebb5f303dce7 1-93
+backend/config/app.php
+  5766ebb5f303dce7 1-18
+backend/src/Exception/CircuitOpenException.php
+  5766ebb5f303dce7 1-13
+backend/config/database.php
+  5766ebb5f303dce7 1-22
+backend/bin/migrate.php
+  5766ebb5f303dce7 1-31
+backend/src/Controller/InvoiceController.php
+  5766ebb5f303dce7 1-149
+frontend/src/Controller/AuthPageController.php
+  5766ebb5f303dce7 1-136
+backend/public/index.php
+  5766ebb5f303dce7 1-16
+backend/src/Database/migrations/001_create_vendors.sql
+  5766ebb5f303dce7 1-11
+backend/src/Service/AuthService.php
+  5766ebb5f303dce7 1-133
+backend/src/Controller/HealthController.php
+  5766ebb5f303dce7 1-112
+docker-compose.yml
+  5766ebb5f303dce7 1-140
+backend/src/Exception/RateLimitExceededException.php
+  5766ebb5f303dce7 1-35
+outlook-addin/src/services/attachment-handler.ts
+  5766ebb5f303dce7 1-173
+outlook-addin/tests/unit/invoice-detector.test.ts
+  5766ebb5f303dce7 1-385
+frontend/src/View/login.php
+  5766ebb5f303dce7 1-72
+outlook-addin/webpack.config.js
+  5766ebb5f303dce7 1-94
+backend/php.ini
+  5766ebb5f303dce7 1-34
+frontend/src/View/Layout/base.php
+  5766ebb5f303dce7 1-66
+frontend/src/View/Partial/vendor-list.php
+  5766ebb5f303dce7 1-35
+backend/src/Exception/AppException.php
+  5766ebb5f303dce7 1-40
+backend/src/Database/migrations/002_create_emails.sql
+  5766ebb5f303dce7 1-20
+backend/src/Security/ChecksumService.php
+  5766ebb5f303dce7 1-57
+k8s/services/mysql/service.yaml
+  5766ebb5f303dce7 1-29
+frontend/phpunit.xml
+  5766ebb5f303dce7 1-28
+backend/tests/Unit/Service/InvoiceExtractionServiceTest.php
+  5766ebb5f303dce7 1-149
+Makefile
+  5766ebb5f303dce7 1-70
+k8s/services/mysql/pvc.yaml
+  5766ebb5f303dce7 1-16
+backend/src/Resilience/CircuitBreaker.php
+  5766ebb5f303dce7 1-178
+backend/src/Middleware/RequestIdMiddleware.php
+  5766ebb5f303dce7 1-30
+frontend/config/routes.php
+  5766ebb5f303dce7 1-41
+frontend/src/Service/DatastarResponseBuilder.php
+  5766ebb5f303dce7 1-106
+k8s/services/frontend/hpa.yaml
+  5766ebb5f303dce7 1-42
+GENERATION_LOG.md
+  5766ebb5f303dce7 1-32
+backend/src/Database/Connection.php
+  5766ebb5f303dce7 1-80
+backend/src/Repository/InvoiceRepository.php
+  5766ebb5f303dce7 1-158
+frontend/src/Kernel.php
+  5766ebb5f303dce7 1-118
+outlook-addin/src/types/invoice.d.ts
+  5766ebb5f303dce7 1-145
+backend/src/Database/migrations/003_create_invoices.sql
+  5766ebb5f303dce7 1-25
+backend/src/Logging/StructuredLogger.php
+  5766ebb5f303dce7 1-151
+backend/src/Repository/VendorRepository.php
+  5766ebb5f303dce7 1-84
+frontend/src/View/dashboard.php
+  5766ebb5f303dce7 1-43
+backend/composer.json
+  5766ebb5f303dce7 1-48
+frontend/src/View/Partial/error-toast.php
+  5766ebb5f303dce7 1-28
+backend/src/DTO/ErrorResponseDTO.php
+  5766ebb5f303dce7 1-44
+frontend/src/View/Partial/email-table.php
+  5766ebb5f303dce7 1-109
+frontend/tests/Unit/BackendApiClientTest.php
+  5766ebb5f303dce7 1-148
+backend/nginx.conf
+  5766ebb5f303dce7 1-47
+backend/src/Database/migrations/007_create_rate_limits.sql
+  5766ebb5f303dce7 1-9
+backend/src/Security/OutputEncoder.php
+  5766ebb5f303dce7 1-33
+backend/src/Repository/EmailRepository.php
+  5766ebb5f303dce7 1-120
+frontend/src/View/Partial/invoice-detail.php
+  5766ebb5f303dce7 1-151
+backend/config/logging.php
+  5766ebb5f303dce7 1-8
+backend/src/Middleware/AuthMiddleware.php
+  5766ebb5f303dce7 1-78
+k8s/services/backend/deployment.yaml
+  5766ebb5f303dce7 1-164
+k8s/services/mysql-router/service.yaml
+  5766ebb5f303dce7 1-23
+MANIFEST.md
+  5766ebb5f303dce7 1-89
+backend/config/vsphere.php
+  5766ebb5f303dce7 1-10
+backend/Dockerfile
+  5766ebb5f303dce7 1-40
+frontend/src/Service/BackendApiClient.php
+  5766ebb5f303dce7 1-183
+frontend/src/Controller/VendorEmailController.php
+  5766ebb5f303dce7 1-92
+backend/tests/Unit/Security/ChecksumServiceTest.php
+  5766ebb5f303dce7 1-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "469e78ef998a0011b390b086b8ba9a319837b344",
+  "prompts": {
+    "5766ebb5f303dce7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "91ac8f3d-a101-4ab9-9ab1-00a0f02a8127",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Employee <employee@Employees-Mac-Studio.local>",
+      "messages": [],
+      "total_additions": 14934,
+      "total_deletions": 84,
+      "accepted_lines": 14858,
+      "overriden_lines": 0
+    },
+    "db162b29609b0d7d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c84ca769-7fcc-4ad6-b38d-dc6d7ec89be5",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Employee <employee@Employees-Mac-Studio.local>",
+      "messages": [],
+      "total_additions": 43,
+      "total_deletions": 0,
+      "accepted_lines": 35,
+      "overriden_lines": 0
+    }
+  }
+}

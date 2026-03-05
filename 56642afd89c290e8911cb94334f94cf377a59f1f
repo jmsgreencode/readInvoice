@@ -1,0 +1,399 @@
+.env.example
+  390b2b1c659b7191 3-4,11-12,23,25
+backend/src/Database/migrations/008_alter_vendors_lifecycle.sql
+  390b2b1c659b7191 1-13
+k8s/rbac.yaml
+  390b2b1c659b7191 4-5,7,15-16,18,41-42,44,49-50,53
+frontend/src/pages/BudgetListPage.js
+  390b2b1c659b7191 1-81
+frontend/src/app.css
+  390b2b1c659b7191 1-653
+frontend/src/pages/PurchaseOrderDetailPage.js
+  390b2b1c659b7191 1-133
+backend/src/Repository/BudgetRepository.php
+  390b2b1c659b7191 1-125
+k8s/configmaps/backend-config.yaml
+  390b2b1c659b7191 5,7,10,13-16
+frontend/src/pages/ComplianceSettingsPage.js
+  390b2b1c659b7191 1-87
+mysql/init/02-grants.sql
+  390b2b1c659b7191 5
+frontend/src/context/AuthContext.test.js
+  390b2b1c659b7191 1-86
+README.md
+  390b2b1c659b7191 1,17-18,37
+backend/src/Service/VendorRequestService.php
+  390b2b1c659b7191 1-92
+frontend/src/pages/InvoiceDetailPage.js
+  390b2b1c659b7191 1-108
+outlook-addin/src/commands/commands.html
+  390b2b1c659b7191 6,8
+frontend/src/api.js
+  390b2b1c659b7191 1-42
+backend/bin/email-queue-worker.php
+  390b2b1c659b7191 1-33
+k8s/secrets/sealed-secrets.yaml
+  390b2b1c659b7191 4-5,7,17-18,20,25-26
+outlook-addin/src/commands/commands.ts
+  390b2b1c659b7191 4
+backend/src/Repository/RoleRepository.php
+  390b2b1c659b7191 1-82
+MANIFEST.md
+  390b2b1c659b7191 1,7,13,21
+backend/src/Database/migrations/017_create_match_results.sql
+  390b2b1c659b7191 1-29
+backend/src/Repository/ComplianceSettingsRepository.php
+  390b2b1c659b7191 1-51
+scripts/smoke-test.sh
+  390b2b1c659b7191 5
+k8s/ingress.yaml
+  390b2b1c659b7191 4-5,7,18,41
+k8s/services/frontend/service.yaml
+  390b2b1c659b7191 5,7,13
+backend/src/Database/migrations/019_create_staging_and_requests.sql
+  390b2b1c659b7191 1-77
+backend/src/Database/migrations/015_create_purchase_orders.sql
+  390b2b1c659b7191 1-33
+outlook-addin/webpack.config.js
+  390b2b1c659b7191 80,84
+frontend/src/components/Layout.js
+  390b2b1c659b7191 1-35
+backend/src/Repository/PermissionRepository.php
+  390b2b1c659b7191 1-43
+backend/src/Database/migrations/010_create_rbac_tables.sql
+  390b2b1c659b7191 1-164
+backend/src/Database/migrations/020_create_email_notifications.sql
+  390b2b1c659b7191 1-19
+frontend/src/components/Sidebar.js
+  390b2b1c659b7191 1-158
+backend/src/Repository/VendorRepository.php
+  5766ebb5f303dce7 54-60
+  390b2b1c659b7191 91-128
+docker-compose.yml
+  5766ebb5f303dce7 14-15,40-42,75-77,81-82,112,124
+  390b2b1c659b7191 7,33,54,92,116,121,130-213,217-218
+backend/config/app.php
+  390b2b1c659b7191 6,17
+k8s/services/mysql-router/deployment.yaml
+  390b2b1c659b7191 5,7,14,24,28,43,71
+frontend/src/pages/LoginPage.test.js
+  390b2b1c659b7191 1-76
+backend/src/Controller/VendorController.php
+  390b2b1c659b7191 10-11,22-23,35-36,156-224
+  5766ebb5f303dce7 96-131
+backend/src/Database/migrations/016_create_grns.sql
+  390b2b1c659b7191 1-29
+outlook-addin/manifest.xml
+  390b2b1c659b7191 11,13-17,20,36,64,107-109,112-113,116,121
+outlook-addin/src/taskpane/taskpane.html
+  390b2b1c659b7191 7,11-12,18,88
+backend/src/Repository/FileImportRepository.php
+  390b2b1c659b7191 1-69
+frontend/src/pages/MatchDashboardPage.js
+  390b2b1c659b7191 1-87
+frontend/src/pages/DashboardPage.js
+  390b2b1c659b7191 1-19
+GENERATION_LOG.md
+  390b2b1c659b7191 9,20
+k8s/namespace.yaml
+  390b2b1c659b7191 4,6
+backend/src/Service/CsvImportService.php
+  390b2b1c659b7191 1-65
+backend/src/Controller/PurchaseOrderController.php
+  390b2b1c659b7191 1-86
+frontend/src/pages/CreateVendorRequestPage.js
+  390b2b1c659b7191 1-87
+frontend/public/index.html
+  390b2b1c659b7191 1-11
+k8s/services/mysql-router/service.yaml
+  390b2b1c659b7191 5,7,13
+frontend/src/pages/PurchaseOrderListPage.js
+  390b2b1c659b7191 1-76
+backend/composer.json
+  390b2b1c659b7191 2-3,18
+  5766ebb5f303dce7 12,41-46
+frontend/src/pages/ReportViewerPage.js
+  390b2b1c659b7191 1-67
+frontend/src/pages/ImportDetailPage.js
+  390b2b1c659b7191 1-120
+frontend/Dockerfile
+  390b2b1c659b7191 1-5,7,9-12,14
+backend/src/Database/migrations/013_create_budgets.sql
+  390b2b1c659b7191 1-14
+backend/src/Database/migrations/004_create_users.sql
+  5766ebb5f303dce7 17
+backend/src/Service/AuthService.php
+  390b2b1c659b7191 19,29-31,57-65,68,78-79,117-124,126,132,138-139
+backend/src/Repository/DepartmentRepository.php
+  390b2b1c659b7191 1-63
+backend/src/Repository/GoodsReceivedNoteRepository.php
+  390b2b1c659b7191 1-116
+backend/bin/sftp-watcher.php
+  390b2b1c659b7191 1-65
+outlook-addin/src/taskpane/taskpane.ts
+  390b2b1c659b7191 4,6,56,261,271,331,431
+backend/src/Service/PdfService.php
+  5766ebb5f303dce7 129-133
+k8s/services/mysql/statefulset.yaml
+  390b2b1c659b7191 5,7,16,21,25,40,47,66,71,76,81,130
+backend/src/Controller/DepartmentController.php
+  390b2b1c659b7191 1-77
+backend/src/Service/ReportService.php
+  390b2b1c659b7191 1-173
+frontend/src/pages/VendorEmailsPage.js
+  390b2b1c659b7191 1-93
+frontend/src/pages/UploadInvoicePage.js
+  390b2b1c659b7191 1-86
+outlook-addin/src/taskpane/taskpane.css
+  390b2b1c659b7191 2
+scripts/sanity-test.sh
+  390b2b1c659b7191 31
+frontend/src/api.test.js
+  390b2b1c659b7191 1-115
+k8s/services/frontend/hpa.yaml
+  390b2b1c659b7191 5,7
+k8s/services/mysql/service.yaml
+  390b2b1c659b7191 5,7,14
+backend/src/Repository/PurchaseOrderRepository.php
+  390b2b1c659b7191 1-132
+backend/src/Service/GoodsReceivedNoteService.php
+  390b2b1c659b7191 1-104
+backend/src/Controller/InvoiceController.php
+  5766ebb5f303dce7 11-12,20-21,25-27,31-32,132-251
+frontend/src/context/AuthContext.js
+  390b2b1c659b7191 1-56
+frontend/src/pages/AddVendorPage.js
+  390b2b1c659b7191 1-75
+frontend/src/pages/LoginPage.js
+  390b2b1c659b7191 1-70
+k8s/services/backend/service.yaml
+  390b2b1c659b7191 5,7,13
+backend/src/Repository/UserRoleRepository.php
+  390b2b1c659b7191 1-144
+backend/src/Middleware/PermissionMiddleware.php
+  390b2b1c659b7191 1-39
+outlook-addin/src/services/api-client.ts
+  390b2b1c659b7191 4,17
+k8s/services/email-worker/deployment.yaml
+  390b2b1c659b7191 5,7,14,24,28,39,47
+frontend/.gitignore
+  390b2b1c659b7191 1-2
+k8s/services/backend/hpa.yaml
+  390b2b1c659b7191 5,7
+backend/src/Service/DepartmentService.php
+  390b2b1c659b7191 1-50
+backend/src/Service/ComplianceService.php
+  390b2b1c659b7191 1-173
+backend/src/Controller/FileImportController.php
+  390b2b1c659b7191 1-75
+backend/src/Controller/VendorRequestController.php
+  390b2b1c659b7191 1-113
+frontend/src/components/StatusBadge.js
+  390b2b1c659b7191 1-37
+backend/src/Service/VendorStagingService.php
+  390b2b1c659b7191 1-100
+backend/src/Controller/VendorStagingController.php
+  390b2b1c659b7191 1-83
+backend/src/Service/RequisitionService.php
+  390b2b1c659b7191 1-102
+frontend/src/pages/RequisitionDetailPage.js
+  390b2b1c659b7191 1-171
+backend/tests/Sanity/DatabaseConnectionTest.php
+  390b2b1c659b7191 25,27,49,51
+frontend/src/pages/BudgetDetailPage.js
+  390b2b1c659b7191 1-84
+k8s/services/backend/deployment.yaml
+  390b2b1c659b7191 5,7,14,24,28,43,50,54,63
+backend/src/Controller/UserController.php
+  390b2b1c659b7191 1-143
+backend/src/Controller/ComplianceController.php
+  390b2b1c659b7191 1-68
+k8s/networkpolicies.yaml
+  390b2b1c659b7191 5,7,19,21,39,41,46,57,62,72,74,79,88,105,117,119,124,134,142,154,156,161,170,180,191,205,207,212,221,233,246
+backend/src/Database/migrations/018_create_compliance.sql
+  390b2b1c659b7191 1-36
+k8s/services/mysql/pvc.yaml
+  390b2b1c659b7191 5,7
+backend/src/Repository/ComplianceAlertRepository.php
+  390b2b1c659b7191 1-74
+docker-compose.override.yml
+  390b2b1c659b7191 28
+k8s/configmaps/mysql-router-config.yaml
+  390b2b1c659b7191 5,7,10,29,37,46
+backend/src/Repository/VendorRequestRepository.php
+  390b2b1c659b7191 1-101
+frontend/src/components/DataTable.js
+  390b2b1c659b7191 1-50
+frontend/src/pages/UserEditPage.js
+  390b2b1c659b7191 1-180
+frontend/src/pages/VendorRequestDetailPage.js
+  390b2b1c659b7191 1-147
+frontend/src/pages/ComplianceDashboardPage.js
+  390b2b1c659b7191 1-113
+frontend/.dockerignore
+  390b2b1c659b7191 1-6
+frontend/babel.config.json
+  390b2b1c659b7191 1-6
+frontend/src/pages/AdminLogsPage.js
+  390b2b1c659b7191 1-20
+backend/src/Database/migrations/009_create_vendor_documents.sql
+  390b2b1c659b7191 1-17
+backend/src/Repository/VendorDocumentRepository.php
+  390b2b1c659b7191 1-65
+backend/src/Database/migrations/011_create_user_roles.sql
+  390b2b1c659b7191 1-38
+backend/src/Service/RbacService.php
+  390b2b1c659b7191 1-158
+backend/src/Controller/BudgetController.php
+  390b2b1c659b7191 1-80
+backend/src/Controller/ReportController.php
+  390b2b1c659b7191 1-72
+frontend/src/pages/VendorDetailPage.js
+  390b2b1c659b7191 1-292
+frontend/src/pages/RequisitionListPage.js
+  390b2b1c659b7191 1-91
+backend/src/Controller/MatchController.php
+  390b2b1c659b7191 1-59
+k8s/configmaps/frontend-config.yaml
+  390b2b1c659b7191 5,7,12,14-15,17-31,34-41,44-47
+backend/src/Repository/EmailNotificationRepository.php
+  390b2b1c659b7191 1-56
+k8s/services/frontend/deployment.yaml
+  390b2b1c659b7191 5,7,14,24,28,43,50,53-54,74-75,82-83
+backend/config/database.php
+  390b2b1c659b7191 10,12,20
+frontend/src/components/ProtectedRoute.js
+  390b2b1c659b7191 1-8
+backend/src/Database/migrations/012_create_departments.sql
+  390b2b1c659b7191 1-14
+outlook-addin/src/types/invoice.d.ts
+  390b2b1c659b7191 2
+frontend/src/pages/DepartmentListPage.js
+  390b2b1c659b7191 1-128
+frontend/src/pages/VendorStagingListPage.js
+  390b2b1c659b7191 1-86
+frontend/src/pages/StagingReviewPage.js
+  390b2b1c659b7191 1-115
+frontend/nginx.conf
+  390b2b1c659b7191 4-5,21-30,37,39,42,45-46
+backend/src/Service/ExportService.php
+  390b2b1c659b7191 1-115
+backend/src/Kernel.php
+  5766ebb5f303dce7 230-232,506,518
+  390b2b1c659b7191 32-77,83,238-456,463-469,524-616
+frontend/src/index.js
+  390b2b1c659b7191 1-29
+outlook-addin/package.json
+  390b2b1c659b7191 2,4
+backend/src/Service/VendorDocumentService.php
+  390b2b1c659b7191 1-65
+backend/src/Controller/RoleController.php
+  390b2b1c659b7191 1-152
+backend/src/Database/migrations/014_create_requisitions.sql
+  390b2b1c659b7191 1-37
+frontend/src/App.js
+  390b2b1c659b7191 1-149
+backend/src/Service/ThreeWayMatchService.php
+  390b2b1c659b7191 1-153
+frontend/src/pages/ImportUploadPage.js
+  390b2b1c659b7191 1-64
+frontend/src/pages/RoleEditPage.js
+  390b2b1c659b7191 1-133
+frontend/src/pages/RolesPage.js
+  390b2b1c659b7191 1-125
+frontend/src/pages/ImportListPage.js
+  390b2b1c659b7191 1-79
+frontend/package.json
+  390b2b1c659b7191 1-18,23-25,28-33
+frontend/src/pages/VendorListPage.js
+  390b2b1c659b7191 1-85
+backend/src/Controller/GoodsReceivedNoteController.php
+  390b2b1c659b7191 1-62
+frontend/src/components/PermissionGate.js
+  390b2b1c659b7191 1-10
+backend/src/Service/PurchaseOrderService.php
+  390b2b1c659b7191 1-109
+backend/bin/compliance-worker.php
+  390b2b1c659b7191 1-41
+backend/src/Service/VendorService.php
+  5766ebb5f303dce7 45-62
+backend/src/Service/EmailNotificationService.php
+  390b2b1c659b7191 1-100
+backend/src/Database/migrations/003_create_invoices.sql
+  5766ebb5f303dce7 3,18
+frontend/src/pages/MatchResultPage.js
+  390b2b1c659b7191 1-126
+mysql/init/01-create-databases.sql
+  390b2b1c659b7191 4,8
+backend/src/Repository/VendorStagingRepository.php
+  390b2b1c659b7191 1-71
+frontend/src/pages/CreateRequisitionPage.js
+  390b2b1c659b7191 1-148
+frontend/jest.config.js
+  390b2b1c659b7191 1-10
+frontend/webpack.config.js
+  390b2b1c659b7191 1-43
+backend/src/Middleware/AuthMiddleware.php
+  390b2b1c659b7191 49-50
+outlook-addin/Dockerfile
+  390b2b1c659b7191 2,34,47
+backend/src/Service/BudgetService.php
+  390b2b1c659b7191 1-109
+backend/src/Service/FileImportService.php
+  390b2b1c659b7191 1-81
+backend/src/Repository/RequisitionRepository.php
+  390b2b1c659b7191 1-142
+backend/src/Repository/MatchResultRepository.php
+  390b2b1c659b7191 1-80
+frontend/src/pages/GrnListPage.js
+  390b2b1c659b7191 1-72
+frontend/src/pages/ReportCenterPage.js
+  390b2b1c659b7191 1-61
+frontend/src/pages/CreateGrnPage.js
+  390b2b1c659b7191 1-156
+frontend/src/pages/VendorRequestListPage.js
+  390b2b1c659b7191 1-76
+frontend/src/components/ProtectedRoute.test.js
+  390b2b1c659b7191 1-41
+backend/src/Controller/RequisitionController.php
+  390b2b1c659b7191 1-101
+frontend/src/pages/UserManagementPage.js
+  390b2b1c659b7191 1-84
+frontend/src/__mocks__/styleMock.js
+  390b2b1c659b7191 1
+backend/src/Service/VendorLifecycleService.php
+  390b2b1c659b7191 1-81
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "56642afd89c290e8911cb94334f94cf377a59f1f",
+  "prompts": {
+    "390b2b1c659b7191": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b65be98-080b-42ee-be70-bf471ffac0e4",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Employee <employee@Employees-Mac-Studio.local>",
+      "messages": [],
+      "total_additions": 11546,
+      "total_deletions": 492,
+      "accepted_lines": 11467,
+      "overriden_lines": 0
+    },
+    "5766ebb5f303dce7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "91ac8f3d-a101-4ab9-9ab1-00a0f02a8127",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Employee <employee@Employees-Mac-Studio.local>",
+      "messages": [],
+      "total_additions": 1010,
+      "total_deletions": 160,
+      "accepted_lines": 973,
+      "overriden_lines": 0
+    }
+  }
+}
